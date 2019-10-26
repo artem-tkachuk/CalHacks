@@ -1,0 +1,4 @@
+runtime: nodejs10
+
+env_variables:
+  COCKROACH_CONNECTION_STRING: ""
