@@ -5,15 +5,36 @@ import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtons
 import MaterialSearchBar1 from "../components/MaterialSearchBar1";
 import MaterialHeader2 from "../components/MaterialHeader2";
 import * as database from "./database.js";
+import * as firebase from "firebase";
+
+class Event extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <View style={styles.Event}>
+        <View style={styles.textColumnRow}>
+          <View style={styles.textColumn}>
+            <Text style={styles.text}>{this.props.name}</Text>
+            <Text style={styles.text2}>City: Berkeley</Text>
+          </View>
+          <MaterialButtonViolet style={styles.materialButtonViolet} />
+        </View>
+        <Text style={styles.text3}>{this.props.capacity}</Text>
+      </View>
+    );
+  }
+}
 
 export default class HomePage extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      eventTitles: ["Looking for Bass Guitar Player"],
-      eventCity: ["Berkeley"],
-      eventCapacity: [1]
+      events: []
     };
+    this.updateEvents = this.updateEvents.bind(this);
   }
 
   getDataUsingGet() {
@@ -56,10 +77,34 @@ export default class HomePage extends Component {
         console.error(error);
       });
   }
+  updateEvents(snapshot) {
+    if (snapshot.exists()) {
+      var all_events = [];
+      snapshot.forEach(child => {
+        all_events.push({
+          name: child.val()["name"],
+          capacity: child.val()["capacity"]
+        });
+      });
+      this.setState({ events: all_events });
+    }
+  }
+
+  componentWillMount() {
+    this.state.events = [];
+    database.initialize();
+    firebase
+      .database()
+      .ref("/events")
+      .on("value", this.updateEvents);
+  }
 
   render() {
-    database.initialize();
-    database.addUser("manlai");
+    //database.addUser("manlai");
+    const events = this.state.events.map((item, key) => (
+      <Event key={key} name={item.name} capacity={item.capacity} />
+    ));
+
     return (
       <View style={styles.container}>
         <View style={styles.scrollAreaStackStack}>
@@ -71,28 +116,7 @@ export default class HomePage extends Component {
                 <Text style={styles.LiveEventsHeader}>
                   Live Events Happening Now
                 </Text>
-
-                <View style={styles.Event}>
-                  <View style={styles.textColumnRow}>
-                    <Text style={styles.text}>{this.state.eventTitles[0]}</Text>
-                  </View>
-                  <View style={styles.textColumnRow}>
-                    <View style={styles.textColumn}>
-                      <Text style={styles.text2}>
-                        City: {this.state.eventCity[0]}
-                      </Text>
-                      <Text style={styles.text3}>
-                        Capacity: {this.state.eventCapacity[0]}
-                      </Text>
-                    </View>
-                    <View style={styles.textColumn}>
-                      <MaterialButtonViolet
-                        style={styles.materialButtonViolet}
-                        onPress={this.getDataUsingPost()}
-                      />
-                    </View>
-                  </View>
-                </View>
+                {events}
               </ScrollView>
             </View>
             {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
