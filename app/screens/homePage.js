@@ -4,12 +4,66 @@ import MaterialButtonViolet from "../components/MaterialButtonViolet";
 import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
 import MaterialSearchBar1 from "../components/MaterialSearchBar1";
 import MaterialHeader2 from "../components/MaterialHeader2";
-import * as database from './database.js'; 
+import * as database from './database.js';
+import * as firebase from 'firebase';
 
-export default class HomePage extends Component {
-  render() {
+class Event extends Component
+{
+  constructor(props)
+  {
+    super(props);
+  }
+  render()
+  {
+    return (<View style={styles.Event}>
+              <View style={styles.textColumnRow}>
+                <View style={styles.textColumn}>
+                  <Text style={styles.text}>{this.props.name}</Text>
+                  <Text style={styles.text2}>City: Berkeley</Text>
+                </View>
+                <MaterialButtonViolet style={styles.materialButtonViolet} />
+              </View>
+              <Text style={styles.text3}>{this.props.capacity}</Text>
+            </View>);
+  }
+}
+
+export default class HomePage extends Component
+{
+  constructor(props)
+  {
+    super(props);
+
+    this.state = {
+      events: []
+    }
+    this.updateEvents = this.updateEvents.bind(this);
+  }
+
+  updateEvents(snapshot)
+  {
+    if(snapshot.exists())
+    {
+      var all_events = []
+      snapshot.forEach((child) => {
+        all_events.push({name: child.val()["name"], capacity: child.val()["capacity"]});
+      });
+      this.setState({events: all_events})
+    }
+  }
+
+  componentWillMount()
+  {
+    this.state.events = [];
     database.initialize();
-    database.addUser("manlai");
+    firebase.database().ref('/events').on('value', this.updateEvents);
+  }
+
+  render() {
+    //database.addUser("manlai");
+    const events = this.state.events.map((item, key) =>
+    <Event key={key} name={item.name} capacity={item.capacity}/>);
+
     return (
       <View style={styles.container}>
         <View style={styles.scrollAreaStackStack}>
@@ -21,16 +75,7 @@ export default class HomePage extends Component {
                 <Text style={styles.LiveEventsHeader}>
                   Live Events Happening Now
                 </Text>
-                <View style={styles.Event}>
-                  <View style={styles.textColumnRow}>
-                    <View style={styles.textColumn}>
-                      <Text style={styles.text}>Event Title</Text>
-                      <Text style={styles.text2}>City: Berkeley</Text>
-                    </View>
-                    <MaterialButtonViolet style={styles.materialButtonViolet} />
-                  </View>
-                  <Text style={styles.text3}>Capacity: X</Text>
-                </View>
+                {events}
               </ScrollView>
             </View>
             {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
