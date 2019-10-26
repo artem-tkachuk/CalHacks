@@ -111,10 +111,12 @@ export default class HomePage extends Component {
               <ScrollView
                 contentContainerStyle={styles.scrollArea_contentContainerStyle}
               >
+                <ScrollView>
                 <Text style={styles.LiveEventsHeader}>
                   Live Events Happening Now
                 </Text>
                 {events}
+                </ScrollView>
               </ScrollView>
             </View>
             {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
