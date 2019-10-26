@@ -6,6 +6,7 @@ import MaterialSearchBar1 from "../components/MaterialSearchBar1";
 import MaterialHeader2 from "../components/MaterialHeader2";
 import * as database from "./database.js";
 import * as firebase from "firebase";
+import LoginForm from "./login";
 
 class Event extends Component {
   constructor(props) {
@@ -105,6 +106,9 @@ export default class HomePage extends Component {
 
     return (
       <View style={styles.container}>
+        <View>
+          <LoginForm />
+        </View>
         <View style={styles.scrollAreaStackStack}>
           <View style={styles.scrollAreaStack}>
             <View style={styles.scrollArea}>
