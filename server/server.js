@@ -5,7 +5,7 @@ const app = express();
 
 const bodyParser = require('body-parser');
 
-const sequelize = require('./database/cockroachDB');
+const cockroachDBSync = require('./sync/cockroachDB').cockroachDBSync;
 
 const welcomeRoutes = require('./routes/welcome');
 const eventsRoutes = require('./routes/events');
@@ -18,8 +18,6 @@ app.use(welcomeRoutes);
 app.use(eventsRoutes);
 app.use(errorController.get404);
 
-
-app.listen(port);
-// sequelize.sequelizeSync(app, port);
+cockroachDBSync(app, port);
 
 // TODO db sync here if needed???

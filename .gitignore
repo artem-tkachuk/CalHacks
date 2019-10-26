@@ -1,2 +1,3 @@
 server/app.yaml
 server/node_modules/*
+server/certs/josh-hackathon-test-ca.crt
