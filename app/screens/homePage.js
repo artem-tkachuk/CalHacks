@@ -4,65 +4,106 @@ import MaterialButtonViolet from "../components/MaterialButtonViolet";
 import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
 import MaterialSearchBar1 from "../components/MaterialSearchBar1";
 import MaterialHeader2 from "../components/MaterialHeader2";
-import * as database from './database.js';
-import * as firebase from 'firebase';
+import * as database from "./database.js";
+import * as firebase from "firebase";
 
-class Event extends Component
-{
-  constructor(props)
-  {
+class Event extends Component {
+  constructor(props) {
     super(props);
   }
-  render()
-  {
-    return (<View style={styles.Event}>
-              <View style={styles.textColumnRow}>
-                <View style={styles.textColumn}>
-                  <Text style={styles.text}>{this.props.name}</Text>
-                  <Text style={styles.text2}>City: Berkeley</Text>
-                </View>
-                <MaterialButtonViolet style={styles.materialButtonViolet} />
-              </View>
-              <Text style={styles.text3}>{this.props.capacity}</Text>
-            </View>);
+  render() {
+    return (
+      <View style={styles.Event}>
+        <View style={styles.textColumnRow}>
+          <View style={styles.textColumn}>
+            <Text style={styles.text}>{this.props.name}</Text>
+            <Text style={styles.text2}>City: Berkeley</Text>
+            <Text style={styles.text3}>capacity: {this.props.capacity}</Text>
+          </View>
+          <MaterialButtonViolet style={styles.materialButtonViolet} />
+        </View>
+      </View>
+    );
   }
 }
 
-export default class HomePage extends Component
-{
-  constructor(props)
-  {
+export default class HomePage extends Component {
+  constructor(props) {
     super(props);
 
     this.state = {
       events: []
-    }
+    };
     this.updateEvents = this.updateEvents.bind(this);
   }
 
-  updateEvents(snapshot)
-  {
-    if(snapshot.exists())
-    {
-      var all_events = []
-      snapshot.forEach((child) => {
-        all_events.push({name: child.val()["name"], capacity: child.val()["capacity"]});
+  getDataUsingGet() {
+    //GET request
+    fetch("https://jsonplaceholder.typicode.com/posts/1", {
+      method: "GET"
+      //Request Type
+    })
+      .then(response => response.json())
+      //If response is in json then in success
+      .then(responseJson => {
+        //Success
+
+        console.log(responseJson);
+      })
+      //If response is not in json then in error
+      .catch(error => {
+        //Error
+
+        console.error(error);
       });
-      this.setState({events: all_events})
+  }
+
+  getDataUsingPost() {
+    //POST request
+    fetch("https://calhacks-257106.appspot.com/add-user", {
+      method: "POST", //Request Type
+      //body: [], //post body
+      headers: {
+        //Header Defination
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      }
+    })
+      .then(responseJson => {
+        console.log(responseJson.body);
+      })
+      //If response is not in json then in error
+      .catch(error => {
+        alert(JSON.stringify(error));
+        console.error(error);
+      });
+  }
+  updateEvents(snapshot) {
+    if (snapshot.exists()) {
+      var all_events = [];
+      snapshot.forEach(child => {
+        all_events.push({
+          name: child.val()["name"],
+          capacity: child.val()["capacity"]
+        });
+      });
+      this.setState({ events: all_events });
     }
   }
 
-  componentWillMount()
-  {
+  componentWillMount() {
     this.state.events = [];
     database.initialize();
-    firebase.database().ref('/events').on('value', this.updateEvents);
+    firebase
+      .database()
+      .ref("/events")
+      .on("value", this.updateEvents);
   }
 
   render() {
     //database.addUser("manlai");
-    const events = this.state.events.map((item, key) =>
-    <Event key={key} name={item.name} capacity={item.capacity}/>);
+    const events = this.state.events.map((item, key) => (
+      <Event key={key} name={item.name} capacity={item.capacity} />
+    ));
 
     return (
       <View style={styles.container}>
@@ -90,18 +131,19 @@ export default class HomePage extends Component
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    borderTopColor: "red"
   },
   scrollArea: {
     top: 56,
     left: 0,
-    width: 375,
+    width: 420,
     height: 582,
     backgroundColor: "rgba(255,255,255,1)",
     position: "absolute"
   },
   scrollArea_contentContainerStyle: {
-    width: 375,
+    width: 420,
     height: 596
   },
   LiveEventsHeader: {
@@ -112,76 +154,73 @@ const styles = StyleSheet.create({
     marginLeft: 34
   },
   Event: {
-    width: 332,
-    height: 96,
+    width: 380,
+    height: 120,
     backgroundColor: "rgba(230, 230, 230,1)",
     marginTop: 30,
-    marginLeft: 17
+    marginLeft: 17,
+    borderRadius: 5,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: "grey",
+    shadowOpacity: 0.5
   },
   text: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20
+    fontSize: 18
     // fontFamily: "roboto-500"
   },
   text2: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20,
-    // fontFamily: "arial",
-    marginTop: 6
+    fontSize: 14
   },
   textColumn: {
-    width: 119,
-    marginBottom: 6
+    flexDirection: "column"
   },
   materialButtonViolet: {
     width: 100,
     height: 36,
-    marginLeft: 66,
-    marginTop: 16
+    marginTop: 20
   },
   textColumnRow: {
-    height: 52,
     flexDirection: "row",
-    marginTop: 12,
-    marginLeft: 14,
-    marginRight: 33
+    margin: 10,
+    textAlign: "center",
+    justifyContent: "space-around"
   },
   text3: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20,
-    // fontFamily: "arial",
-    marginLeft: 13
+    fontSize: 14
   },
   Footer: {
     top: 638,
     left: 0,
-    width: 375,
+    width: 420,
     height: 87,
     position: "absolute"
   },
   SearchBar: {
-    top: 0,
+    top: -35,
     left: 0,
-    width: 375,
+    width: 420,
     height: 56,
     position: "absolute"
   },
   scrollAreaStack: {
     top: 56,
     left: 0,
-    width: 375,
+    width: 420,
     height: 725,
     position: "absolute"
   },
   Header: {
-    top: 0,
+    top: -30,
     left: 0,
-    width: 375,
+    width: 420,
     height: 56,
     position: "absolute"
   },
   scrollAreaStackStack: {
-    width: 375,
+    width: 420,
     height: 781,
     marginTop: 31
   }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import MaterialHeader2 from "../components/MaterialHeader2";
 import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
 import MaterialButtonViolet1 from "../components/MaterialButtonViolet1";
@@ -10,12 +10,22 @@ export default class HostPageBefore extends Component {
     return (
       <View style={styles.container}>
         <MaterialHeader2 style={styles.Header} />
-        <Text style={styles.HostEventHeader}>Host an Event</Text>
-        <MaterialFixedLabelTextbox style={styles.EventTitle} />
-        <MaterialFixedLabelTextbox style={styles.EventCapacity} />
-        <MaterialFixedLabelTextbox style={styles.EventCity} />
-        <MaterialButtonViolet1 style={styles.PostButton} />
-        {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
+        <View style={styles.scrollAreaStackStack}>
+          <View style={styles.scrollAreaStack}>
+            <View style={styles.scrollArea}>
+              <ScrollView
+                contentContainerStyle={styles.scrollArea_contentContainerStyle}
+              >
+                <Text style={styles.HostEventHeader}>Host an Event</Text>
+                <MaterialFixedLabelTextbox style={styles.EventTitle} />
+                <MaterialFixedLabelTextbox style={styles.EventCapacity} />
+                <MaterialFixedLabelTextbox style={styles.EventCity} />
+                <MaterialButtonViolet1 style={styles.PostButton} />
+                {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
+              </ScrollView>
+            </View>
+          </View>
+        </View>
       </View>
     );
   }
@@ -27,21 +37,19 @@ const styles = StyleSheet.create({
   },
   Header: {
     width: 420,
-    height: 56,
-    marginTop: 31
+    height: 56
   },
   HostEventHeader: {
     color: "rgba(39,34,34,1)",
     fontSize: 24,
     // fontFamily: "roboto-700",
-    marginTop: 22,
-    marginLeft: 16
+    textAlign: "center"
   },
   EventTitle: {
     width: 333,
     height: 43,
     marginTop: 59,
-    marginLeft: 21
+    alignSelf: "center"
   },
   EventCapacity: {
     width: 333,
@@ -58,12 +66,36 @@ const styles = StyleSheet.create({
   PostButton: {
     width: 323,
     height: 36,
-    marginTop: 188,
+    marginTop: 130,
     alignSelf: "center"
   },
   Footer: {
     width: 420,
     height: 87,
     marginTop: 28
+  },
+  scrollArea: {
+    top: 0,
+    left: 0,
+    width: 420,
+    height: 582,
+    backgroundColor: "rgba(255,255,255,1)",
+    position: "absolute"
+  },
+  scrollArea_contentContainerStyle: {
+    width: 420,
+    height: 596
+  },
+  scrollAreaStack: {
+    top: 0,
+    left: 0,
+    width: 420,
+    height: 725,
+    position: "absolute"
+  },
+  scrollAreaStackStack: {
+    width: 420,
+    height: 781,
+    marginTop: 31
   }
 });
