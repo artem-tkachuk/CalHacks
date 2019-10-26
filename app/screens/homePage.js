@@ -40,7 +40,7 @@ export default class HomePage extends Component {
     //GET request
     fetch("https://jsonplaceholder.typicode.com/posts/1", {
       method: "GET"
-      //Request Type
+      //Request Typeeeee
     })
       .then(response => response.json())
       //If response is in json then in success
