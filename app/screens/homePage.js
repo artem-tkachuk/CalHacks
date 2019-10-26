@@ -4,7 +4,7 @@ import MaterialButtonViolet from "../components/MaterialButtonViolet";
 import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
 import MaterialSearchBar1 from "../components/MaterialSearchBar1";
 import MaterialHeader2 from "../components/MaterialHeader2";
-import * as firebase from 'firebase';
+import * as firebase from "firebase";
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -48,14 +48,16 @@ export default class HomePage extends Component {
   getDataUsingPost() {
     //POST request
     fetch("https://calhacks-257106.appspot.com/add-user", {
-      method: "POST",
-      body: []
+      method: "POST", //Request Type
+      //body: [], //post body
+      headers: {
+        //Header Defination
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      }
     })
-      .then(response => response.json())
-      //If response is in json then in success
       .then(responseJson => {
         alert(JSON.stringify(responseJson));
-        console.log(responseJson);
+        console.log(responseJson.body);
       })
       //If response is not in json then in error
       .catch(error => {
@@ -64,20 +66,23 @@ export default class HomePage extends Component {
       });
   }
 
-  alertt() {
-    this.state.eventTitles = "hahaha";
-  }
   render() {
     firebase.initializeApp(firebaseConfig);
-    firebase.database().ref('/users').set({
-      name: "mike",
-    }, function(error) {
-      if (error) {
-        // The write failed...
-      } else {
-        // Data saved successfully!
-      }
-    });
+    firebase
+      .database()
+      .ref("/users")
+      .set(
+        {
+          name: "mike"
+        },
+        function(error) {
+          if (error) {
+            // The write failed...
+          } else {
+            // Data saved successfully!
+          }
+        }
+      );
     return (
       <View style={styles.container}>
         <View style={styles.scrollAreaStackStack}>
@@ -102,7 +107,7 @@ export default class HomePage extends Component {
                     </View>
                     <MaterialButtonViolet
                       style={styles.materialButtonViolet}
-                      onPress={this.alertt}
+                      onPress={this.getDataUsingPost()}
                     />
                   </View>
                   <Text style={styles.text3}>
@@ -123,7 +128,8 @@ export default class HomePage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    borderTopColor: "red"
   },
   scrollArea: {
     top: 56,
