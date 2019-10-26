@@ -6,8 +6,35 @@ import MaterialFixedLabelTextboxCapacity from "../components/MaterialFixedLabelT
 import MaterialFixedLabelTextboxAddress from "../components/MaterialFixedLabelTextboxAddress";
 import MaterialButtonViolet1 from "../components/MaterialButtonViolet1";
 import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
+import * as database from "./database.js";
 
 export default class HostPageBefore extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { title: "", capacity: 0, address: "" };
+    this.changeTitle = this.changeTitle.bind(this);
+    this.changeCapacity = this.changeCapacity.bind(this);
+    this.changeAddress = this.changeAddress.bind(this);
+    this.onPress = this.onPress.bind(this);
+  }
+
+  changeTitle(text) {
+    this.state.title = text;
+  }
+  changeCapacity(val) {
+    this.state.capacity = val;
+  }
+  changeAddress(text) {
+    this.state.address = text;
+  }
+  onPress() {
+    database.addEvent(
+      this.state.title,
+      this.state.capacity,
+      this.state.address
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -21,17 +48,23 @@ export default class HostPageBefore extends Component {
                 <Text style={styles.HostEventHeader}>Host an Event</Text>
                 <MaterialFixedLabelTextbox
                   placeholder="Title:"
+                  reff={this.changeTitle}
                   style={styles.EventTitle}
                 />
                 <MaterialFixedLabelTextbox
                   placeholder="Capacity:"
+                  reff={this.changeCapacity}
                   style={styles.EventCapacity}
                 />
                 <MaterialFixedLabelTextbox
                   placeholder="Address:"
+                  reff={this.changeAddress}
                   style={styles.EventCity}
                 />
-                <MaterialButtonViolet1 style={styles.PostButton} />
+                <MaterialButtonViolet1
+                  onPress={this.onPress}
+                  style={styles.PostButton}
+                />
                 {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
               </ScrollView>
             </View>
