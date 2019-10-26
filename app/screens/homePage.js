@@ -17,7 +17,6 @@ class Event extends Component {
         <View style={styles.textColumnRow}>
           <View style={styles.textColumn}>
             <Text style={styles.text}>{this.props.name}</Text>
-            <Text style={styles.text2}>City: Berkeley</Text>
             <Text style={styles.text3}>capacity: {this.props.capacity}</Text>
           </View>
           <MaterialButtonViolet style={styles.materialButtonViolet} />
