@@ -99,7 +99,6 @@ export default class HomePage extends Component {
   }
 
   render() {
-    //database.addUser("manlai");
     const events = this.state.events.map((item, key) => (
       <Event key={key} name={item.name} capacity={item.capacity} />
     ));
