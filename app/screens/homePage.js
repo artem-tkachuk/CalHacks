@@ -6,6 +6,7 @@ import MaterialSearchBar1 from "../components/MaterialSearchBar1";
 import MaterialHeader2 from "../components/MaterialHeader2";
 import * as database from "./database.js";
 import * as firebase from "firebase";
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 class Event extends Component {
   constructor(props) {
@@ -13,13 +14,25 @@ class Event extends Component {
   }
   render() {
     return (
-      <View style={styles.Event}>
-        <View style={styles.textColumnRow}>
-          <View style={styles.textColumn}>
-            <Text style={styles.text}>{this.props.name}</Text>
-            <Text style={styles.text3}>capacity: {this.props.capacity}</Text>
+      <View>
+        <View style={styles.Event}>
+          <View style={styles.textColumnRow}>
+            <View style={styles.textColumn}>
+              <Text style={styles.text}>{this.props.name}</Text>
+              <Text style={styles.text3}>capacity: {this.props.capacity}</Text>
+            </View>
+            <MaterialButtonViolet
+              style={styles.materialButtonViolet}
+              onPress={() => {
+                showMessage({
+                  message: "Someone wants to join your event",
+                  type: "info",
+                  backgroundColor: "black", // background color
+                  color: "white" // text color
+                });
+              }}
+            />
           </View>
-          <MaterialButtonViolet style={styles.materialButtonViolet} />
         </View>
       </View>
     );
@@ -112,10 +125,10 @@ export default class HomePage extends Component {
                 contentContainerStyle={styles.scrollArea_contentContainerStyle}
               >
                 <ScrollView>
-                <Text style={styles.LiveEventsHeader}>
-                  Live Events Happening Now
-                </Text>
-                {events}
+                  <Text style={styles.LiveEventsHeader}>
+                    Live Events Happening Now
+                  </Text>
+                  {events}
                 </ScrollView>
               </ScrollView>
             </View>

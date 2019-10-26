@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   caption: {
     color: "#fff",
-    fontSize: 14
+    fontSize: 11
     // fontFamily: "arial"
   }
 });

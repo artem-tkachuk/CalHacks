@@ -5,25 +5,73 @@ import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
 import MaterialButtonViolet1 from "../components/MaterialButtonViolet1";
 import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
 import * as database from "./database.js";
+import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
+import MaterialButtonDanger from "../components/MaterialButtonDanger";
 
-export default class HostPageBefore extends Component
-{
-  constructor(props)
-  {
+class HostPageAfter extends Component {
+  render() {
+    return (
+      <View style={styles.containerAfter}>
+        <View style={styles.scrollAreaStack}>
+          <View style={styles.scrollArea}>
+            <ScrollView
+              contentContainerStyle={styles.scrollArea_contentContainerStyle}
+            >
+              <Text style={styles.MyEventHeader}>My Event</Text>
+              <View style={styles.MyEventInfo}>
+                <Text style={styles.text2}>Event Title</Text>
+                <Text style={styles.text3}>City: Berkeley</Text>
+                <Text style={styles.text4}>Capacity: X</Text>
+              </View>
+              <Text style={styles.RequestsHeader}>Requests</Text>
+              <View style={styles.Request}>
+                <View style={styles.text6Row}>
+                  <Text style={styles.text6}>Name</Text>
+                  <MaterialButtonSuccess style={styles.materialButtonSuccess} />
+                  <MaterialButtonDanger style={styles.materialButtonDanger} />
+                </View>
+              </View>
+            </ScrollView>
+          </View>
+          {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
+        </View>
+      </View>
+    );
+  }
+}
+
+class HostPageBefore extends Component {
+  constructor(props) {
     super(props);
-    this.state = {title: "", capacity: 0, address: ""};
+    this.state = { title: "", capacity: 0, address: "" };
     this.changeTitle = this.changeTitle.bind(this);
     this.changeCapacity = this.changeCapacity.bind(this);
     this.changeAddress = this.changeAddress.bind(this);
     this.onPress = this.onPress.bind(this);
   }
 
-  changeTitle(text) { this.state.title = text; }
-  changeCapacity(val) { this.state.capacity = val; }
-  changeAddress(text) { this.state.address = text; }
-  onPress()
-  {
-    database.addEvent(this.state.title, this.state.capacity, this.state.address);
+  changeTitle(text) {
+    this.state.title = text;
+  }
+  changeCapacity(val) {
+    this.state.capacity = val;
+  }
+  changeAddress(text) {
+    this.state.address = text;
+  }
+  onPress() {
+    if (
+      this.state.title == "" ||
+      this.state.capacity == "" ||
+      this.state.address == ""
+    )
+      return;
+    database.addEvent(
+      this.state.title,
+      this.state.capacity,
+      this.state.address
+    );
+    this.props.eventCallback(true);
   }
 
   render() {
@@ -34,13 +82,32 @@ export default class HostPageBefore extends Component
           <View style={styles.scrollAreaStack}>
             <View style={styles.scrollArea}>
               <ScrollView
-                contentContainerStyle={styles.scrollArea_contentContainerStyle}>
-                <Text style={styles.HostEventHeader}>Host an Event</Text>
-                <MaterialFixedLabelTextbox placeholder="Title:" reff={this.changeTitle} style={styles.EventTitle} />
-                <MaterialFixedLabelTextbox placeholder="Capacity:" reff={this.changeCapacity} style={styles.EventCapacity} />
-                <MaterialFixedLabelTextbox placeholder="Address:" reff={this.changeAddress} style={styles.EventCity} />
-                <MaterialButtonViolet1 onPress={this.onPress} style={styles.PostButton} />
-                {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
+                contentContainerStyle={styles.scrollArea_contentContainerStyle}
+              >
+                <ScrollView>
+                  <Text style={styles.HostEventHeader}>Host an Event</Text>
+
+                  <MaterialFixedLabelTextbox
+                    placeholder="Title:"
+                    reff={this.changeTitle}
+                    style={styles.EventTitle}
+                  />
+                  <MaterialFixedLabelTextbox
+                    placeholder="Capacity:"
+                    reff={this.changeCapacity}
+                    style={styles.EventCapacity}
+                  />
+                  <MaterialFixedLabelTextbox
+                    placeholder="Address:"
+                    reff={this.changeAddress}
+                    style={styles.EventCity}
+                  />
+                  <MaterialButtonViolet1
+                    onPress={this.onPress}
+                    style={styles.PostButton}
+                  />
+                  {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
+                </ScrollView>
               </ScrollView>
             </View>
           </View>
@@ -50,7 +117,28 @@ export default class HostPageBefore extends Component
   }
 }
 
-const styles = StyleSheet.create({
+export default class Combiner extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { eventHosted: false };
+    this.setEventHosted = this.setEventHosted.bind(this);
+  }
+
+  setEventHosted(val) {
+    this.setState({ eventHosted: val });
+  }
+
+  render() {
+    if (this.state.eventHosted) return <HostPageAfter />;
+    else return <HostPageBefore eventCallback={this.setEventHosted} />;
+  }
+}
+
+var styles = StyleSheet.create({
+  containerAfter: {
+    flex: 1
+    //display: "flex"
+  },
   container: {
     flex: 1
   },
@@ -116,5 +204,86 @@ const styles = StyleSheet.create({
     width: 420,
     height: 781,
     marginTop: 31
+  },
+  MyEventHeader: {
+    color: "rgba(39,34,34,1)",
+    fontSize: 24,
+    // fontFamily: "roboto-700",
+    textAlign: "center"
+  },
+  MyEventInfo: {
+    width: 332,
+    height: 96,
+    backgroundColor: "rgba(230, 230, 230,1)",
+    alignSelf: "center",
+    marginTop: 30,
+    borderRadius: 5,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: "grey",
+    shadowOpacity: 0.5
+  },
+  text2: {
+    color: "rgba(39,34,34,1)",
+    fontSize: 16,
+    // fontFamily: "roboto-500",
+    marginTop: 12,
+    marginLeft: 14
+  },
+  text3: {
+    color: "rgba(39,34,34,1)",
+    fontSize: 16,
+    // fontFamily: "arial",
+    marginTop: 6,
+    marginLeft: 14
+  },
+  text4: {
+    color: "rgba(39,34,34,1)",
+    fontSize: 16,
+    // fontFamily: "arial",
+    marginTop: 6,
+    marginLeft: 13
+  },
+  RequestsHeader: {
+    color: "rgba(39,34,34,1)",
+    fontSize: 24,
+    // fontFamily: "roboto-700",
+    textAlign: "center",
+    marginTop: 30
+  },
+  Request: {
+    width: 332,
+    height: 80,
+    backgroundColor: "rgba(230, 230, 230,1)",
+    flexDirection: "row",
+    alignSelf: "center",
+    marginTop: 30,
+    borderRadius: 5,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: "grey",
+    shadowOpacity: 0.5
+  },
+  text6: {
+    color: "rgba(39,34,34,1)",
+    fontSize: 16,
+    // fontFamily: "arial",
+    marginTop: 13
+  },
+  materialButtonSuccess: {
+    width: 88,
+    height: 36,
+    marginLeft: 38
+  },
+  materialButtonDanger: {
+    width: 88,
+    height: 36,
+    marginLeft: 28
+  },
+  text6Row: {
+    height: 36,
+    flexDirection: "row",
+    flex: 1,
+    marginRight: 12,
+    marginLeft: 25,
+    marginTop: 22
   }
 });

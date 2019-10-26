@@ -31,7 +31,6 @@ export default class HostPageAfter extends Component {
             </ScrollView>
           </View>
           {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
-          <MaterialHeader2 style={styles.Header} />
         </View>
       </View>
     );
@@ -58,33 +57,36 @@ const styles = StyleSheet.create({
     color: "rgba(39,34,34,1)",
     fontSize: 24,
     // fontFamily: "roboto-700",
-    marginTop: 22,
-    marginLeft: 16
+    textAlign: "center"
   },
   MyEventInfo: {
     width: 332,
     height: 96,
     backgroundColor: "rgba(230, 230, 230,1)",
-    marginTop: 23,
-    marginLeft: 16
+    alignSelf: "center",
+    marginTop: 30,
+    borderRadius: 5,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: "grey",
+    shadowOpacity: 0.5
   },
   text2: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20,
+    fontSize: 16,
     // fontFamily: "roboto-500",
     marginTop: 12,
     marginLeft: 14
   },
   text3: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20,
+    fontSize: 16,
     // fontFamily: "arial",
     marginTop: 6,
     marginLeft: 14
   },
   text4: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20,
+    fontSize: 16,
     // fontFamily: "arial",
     marginTop: 6,
     marginLeft: 13
@@ -93,20 +95,24 @@ const styles = StyleSheet.create({
     color: "rgba(39,34,34,1)",
     fontSize: 24,
     // fontFamily: "roboto-700",
-    marginTop: 59,
-    marginLeft: 16
+    textAlign: "center",
+    marginTop: 30
   },
   Request: {
     width: 332,
     height: 80,
     backgroundColor: "rgba(230, 230, 230,1)",
     flexDirection: "row",
-    marginTop: 20,
-    marginLeft: 16
+    alignSelf: "center",
+    marginTop: 30,
+    borderRadius: 5,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: "grey",
+    shadowOpacity: 0.5
   },
   text6: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20,
+    fontSize: 16,
     // fontFamily: "arial",
     marginTop: 13
   },
