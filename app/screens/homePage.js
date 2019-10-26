@@ -4,19 +4,7 @@ import MaterialButtonViolet from "../components/MaterialButtonViolet";
 import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
 import MaterialSearchBar1 from "../components/MaterialSearchBar1";
 import MaterialHeader2 from "../components/MaterialHeader2";
-<<<<<<< HEAD
-import * as firebase from "firebase";
-
-// Initialize Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyChrZ3JhGkEbUewo7D-VL5qE9w5Fs656ws",
-  authDomain: "calhacks-9e46e.firebaseapp.com",
-  databaseURL: "https://calhacks-9e46e.firebaseio.com",
-  storageBucket: "calhacks-9e46e.appspot.com"
-};
-=======
-import * as database from './database.js'; 
->>>>>>> 5607d54e1d995e4f908108032fefb3cd3ee450c6
+import * as database from "./database.js";
 
 export default class HomePage extends Component {
   constructor(props) {
