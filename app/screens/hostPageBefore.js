@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import MaterialHeader2 from "../components/MaterialHeader2";
-import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
+import MaterialFixedLabelTextboxTitle from "../components/MaterialFixedLabelTextboxTitle";
+import MaterialFixedLabelTextboxCapacity from "../components/MaterialFixedLabelTextboxCapacity";
+import MaterialFixedLabelTextboxAddress from "../components/MaterialFixedLabelTextboxAddress";
 import MaterialButtonViolet1 from "../components/MaterialButtonViolet1";
 import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
 
@@ -17,9 +19,11 @@ export default class HostPageBefore extends Component {
                 contentContainerStyle={styles.scrollArea_contentContainerStyle}
               >
                 <Text style={styles.HostEventHeader}>Host an Event</Text>
-                <MaterialFixedLabelTextbox style={styles.EventTitle} />
-                <MaterialFixedLabelTextbox style={styles.EventCapacity} />
-                <MaterialFixedLabelTextbox style={styles.EventCity} />
+                <MaterialFixedLabelTextboxTitle style={styles.EventTitle} />
+                <MaterialFixedLabelTextboxCapacity
+                  style={styles.EventCapacity}
+                />
+                <MaterialFixedLabelTextboxAddress style={styles.EventCity} />
                 <MaterialButtonViolet1 style={styles.PostButton} />
                 {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
               </ScrollView>
@@ -43,7 +47,8 @@ const styles = StyleSheet.create({
     color: "rgba(39,34,34,1)",
     fontSize: 24,
     // fontFamily: "roboto-700",
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: 20
   },
   EventTitle: {
     width: 333,
