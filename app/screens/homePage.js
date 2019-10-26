@@ -4,9 +4,28 @@ import MaterialButtonViolet from "../components/MaterialButtonViolet";
 import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
 import MaterialSearchBar1 from "../components/MaterialSearchBar1";
 import MaterialHeader2 from "../components/MaterialHeader2";
+import * as firebase from 'firebase';
+
+// Initialize Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyChrZ3JhGkEbUewo7D-VL5qE9w5Fs656ws",
+  authDomain: "calhacks-9e46e.firebaseapp.com",
+  databaseURL: "https://calhacks-9e46e.firebaseio.com",
+  storageBucket: "calhacks-9e46e.appspot.com"
+};
 
 export default class HomePage extends Component {
   render() {
+    firebase.initializeApp(firebaseConfig);
+    firebase.database().ref('/users').set({
+      name: "mike",
+    }, function(error) {
+      if (error) {
+        // The write failed...
+      } else {
+        // Data saved successfully!
+      }
+    });
     return (
       <View style={styles.container}>
         <View style={styles.scrollAreaStackStack}>
