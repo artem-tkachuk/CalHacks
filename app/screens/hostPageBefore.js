@@ -14,12 +14,11 @@ export default class HostPageBefore extends Component {
           <View style={styles.scrollAreaStack}>
             <View style={styles.scrollArea}>
               <ScrollView
-                contentContainerStyle={styles.scrollArea_contentContainerStyle}
-              >
+                contentContainerStyle={styles.scrollArea_contentContainerStyle}>
                 <Text style={styles.HostEventHeader}>Host an Event</Text>
-                <MaterialFixedLabelTextbox style={styles.EventTitle} />
-                <MaterialFixedLabelTextbox style={styles.EventCapacity} />
-                <MaterialFixedLabelTextbox style={styles.EventCity} />
+                <MaterialFixedLabelTextbox placeholder="Title:" style={styles.EventTitle} />
+                <MaterialFixedLabelTextbox placeholder="Capacity:" style={styles.EventCapacity} />
+                <MaterialFixedLabelTextbox placeholder="Address:" style={styles.EventCity} />
                 <MaterialButtonViolet1 style={styles.PostButton} />
                 {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
               </ScrollView>
