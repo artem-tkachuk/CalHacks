@@ -16,19 +16,21 @@ export default class HostPageBefore extends Component {
           <View style={styles.scrollAreaStack}>
             <View style={styles.scrollArea}>
               <ScrollView
-                contentContainerStyle={styles.scrollArea_contentContainerStyle}>
+                contentContainerStyle={styles.scrollArea_contentContainerStyle}
+              >
                 <Text style={styles.HostEventHeader}>Host an Event</Text>
-<<<<<<< HEAD
-                <MaterialFixedLabelTextboxTitle style={styles.EventTitle} />
-                <MaterialFixedLabelTextboxCapacity
+                <MaterialFixedLabelTextbox
+                  placeholder="Title:"
+                  style={styles.EventTitle}
+                />
+                <MaterialFixedLabelTextbox
+                  placeholder="Capacity:"
                   style={styles.EventCapacity}
                 />
-                <MaterialFixedLabelTextboxAddress style={styles.EventCity} />
-=======
-                <MaterialFixedLabelTextbox placeholder="Title:" style={styles.EventTitle} />
-                <MaterialFixedLabelTextbox placeholder="Capacity:" style={styles.EventCapacity} />
-                <MaterialFixedLabelTextbox placeholder="Address:" style={styles.EventCity} />
->>>>>>> a702fea63291b9121bab41b5b3979d338ac9d13a
+                <MaterialFixedLabelTextbox
+                  placeholder="Address:"
+                  style={styles.EventCity}
+                />
                 <MaterialButtonViolet1 style={styles.PostButton} />
                 {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
               </ScrollView>
