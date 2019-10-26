@@ -17,7 +17,14 @@ module.exports = {
     {
         firebase.database().ref('/users').push().set({
             name: username,
-          });
+        });
+    },
+    addEvent: function(title, capacity, address)
+    {
+        firebase.database().ref('/events').push().set({
+            name: title,    capacity: capacity,
+            address: address,   // TODO: host
+        });
     }
 }
 
