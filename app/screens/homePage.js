@@ -6,6 +6,58 @@ import MaterialSearchBar1 from "../components/MaterialSearchBar1";
 import MaterialHeader2 from "../components/MaterialHeader2";
 
 export default class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      eventTitles: ["Looking for Bass Guitar Player"],
+      eventCity: ["Berkeley"],
+      eventCapacity: [1]
+    };
+  }
+
+  getDataUsingGet() {
+    //GET request
+    fetch("https://jsonplaceholder.typicode.com/posts/1", {
+      method: "GET"
+      //Request Type
+    })
+      .then(response => response.json())
+      //If response is in json then in success
+      .then(responseJson => {
+        //Success
+        alert(JSON.stringify(responseJson));
+        console.log(responseJson);
+      })
+      //If response is not in json then in error
+      .catch(error => {
+        //Error
+        alert(JSON.stringify(error));
+        console.error(error);
+      });
+  }
+
+  getDataUsingPost() {
+    //POST request
+    fetch("https://calhacks-257106.appspot.com/add-user", {
+      method: "POST",
+      body: []
+    })
+      .then(response => response.json())
+      //If response is in json then in success
+      .then(responseJson => {
+        alert(JSON.stringify(responseJson));
+        console.log(responseJson);
+      })
+      //If response is not in json then in error
+      .catch(error => {
+        alert(JSON.stringify(error));
+        console.error(error);
+      });
+  }
+
+  alertt() {
+    this.state.eventTitles = "hahaha";
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -18,15 +70,25 @@ export default class HomePage extends Component {
                 <Text style={styles.LiveEventsHeader}>
                   Live Events Happening Now
                 </Text>
+
                 <View style={styles.Event}>
                   <View style={styles.textColumnRow}>
                     <View style={styles.textColumn}>
-                      <Text style={styles.text}>Event Title</Text>
-                      <Text style={styles.text2}>City: Berkeley</Text>
+                      <Text style={styles.text}>
+                        {this.state.eventTitles[0]}
+                      </Text>
+                      <Text style={styles.text2}>
+                        City: {this.state.eventCity[0]}
+                      </Text>
                     </View>
-                    <MaterialButtonViolet style={styles.materialButtonViolet} />
+                    <MaterialButtonViolet
+                      style={styles.materialButtonViolet}
+                      onPress={this.alertt}
+                    />
                   </View>
-                  <Text style={styles.text3}>Capacity: X</Text>
+                  <Text style={styles.text3}>
+                    Capacity: {this.state.eventCapacity[0]}
+                  </Text>
                 </View>
               </ScrollView>
             </View>
@@ -47,13 +109,13 @@ const styles = StyleSheet.create({
   scrollArea: {
     top: 56,
     left: 0,
-    width: 375,
+    width: 420,
     height: 582,
     backgroundColor: "rgba(255,255,255,1)",
     position: "absolute"
   },
   scrollArea_contentContainerStyle: {
-    width: 375,
+    width: 420,
     height: 596
   },
   LiveEventsHeader: {
@@ -64,8 +126,8 @@ const styles = StyleSheet.create({
     marginLeft: 34
   },
   Event: {
-    width: 332,
-    height: 96,
+    width: 380,
+    height: 120,
     backgroundColor: "rgba(230, 230, 230,1)",
     marginTop: 30,
     marginLeft: 17
@@ -82,7 +144,7 @@ const styles = StyleSheet.create({
     marginTop: 6
   },
   textColumn: {
-    width: 119,
+    width: 200,
     marginBottom: 6
   },
   materialButtonViolet: {
@@ -107,33 +169,33 @@ const styles = StyleSheet.create({
   Footer: {
     top: 638,
     left: 0,
-    width: 375,
+    width: 420,
     height: 87,
     position: "absolute"
   },
   SearchBar: {
     top: 0,
     left: 0,
-    width: 375,
+    width: 420,
     height: 56,
     position: "absolute"
   },
   scrollAreaStack: {
     top: 56,
     left: 0,
-    width: 375,
+    width: 420,
     height: 725,
     position: "absolute"
   },
   Header: {
     top: 0,
     left: 0,
-    width: 375,
+    width: 420,
     height: 56,
     position: "absolute"
   },
   scrollAreaStackStack: {
-    width: 375,
+    width: 420,
     height: 781,
     marginTop: 31
   }
