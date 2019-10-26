@@ -18,10 +18,10 @@ class Event extends Component {
           <View style={styles.textColumn}>
             <Text style={styles.text}>{this.props.name}</Text>
             <Text style={styles.text2}>City: Berkeley</Text>
+            <Text style={styles.text3}>capacity: {this.props.capacity}</Text>
           </View>
           <MaterialButtonViolet style={styles.materialButtonViolet} />
         </View>
-        <Text style={styles.text3}>{this.props.capacity}</Text>
       </View>
     );
   }
@@ -178,7 +178,8 @@ const styles = StyleSheet.create({
   },
   materialButtonViolet: {
     width: 100,
-    height: 36
+    height: 36,
+    marginTop: 20
   },
   textColumnRow: {
     flexDirection: "row",
