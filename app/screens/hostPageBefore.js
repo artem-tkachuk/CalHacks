@@ -48,19 +48,19 @@ const styles = StyleSheet.create({
   EventTitle: {
     width: 333,
     height: 43,
-    marginTop: 59,
+    marginTop: 25,
     alignSelf: "center"
   },
   EventCapacity: {
     width: 333,
     height: 43,
-    marginTop: 67,
+    marginTop: 25,
     alignSelf: "center"
   },
   EventCity: {
     width: 333,
     height: 43,
-    marginTop: 85,
+    marginTop: 25,
     alignSelf: "center"
   },
   PostButton: {

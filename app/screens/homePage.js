@@ -17,7 +17,6 @@ class Event extends Component {
         <View style={styles.textColumnRow}>
           <View style={styles.textColumn}>
             <Text style={styles.text}>{this.props.name}</Text>
-            <Text style={styles.text2}>City: Berkeley</Text>
             <Text style={styles.text3}>capacity: {this.props.capacity}</Text>
           </View>
           <MaterialButtonViolet style={styles.materialButtonViolet} />
@@ -41,7 +40,7 @@ export default class HomePage extends Component {
     //GET request
     fetch("https://jsonplaceholder.typicode.com/posts/1", {
       method: "GET"
-      //Request Type
+      //Request Typeeeee
     })
       .then(response => response.json())
       //If response is in json then in success
@@ -100,7 +99,6 @@ export default class HomePage extends Component {
   }
 
   render() {
-    //database.addUser("manlai");
     const events = this.state.events.map((item, key) => (
       <Event key={key} name={item.name} capacity={item.capacity} />
     ));
