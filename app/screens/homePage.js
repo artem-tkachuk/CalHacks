@@ -26,13 +26,13 @@ export default class HomePage extends Component {
       //If response is in json then in success
       .then(responseJson => {
         //Success
-        alert(JSON.stringify(responseJson));
+
         console.log(responseJson);
       })
       //If response is not in json then in error
       .catch(error => {
         //Error
-        alert(JSON.stringify(error));
+
         console.error(error);
       });
   }
@@ -48,7 +48,6 @@ export default class HomePage extends Component {
       }
     })
       .then(responseJson => {
-        alert(JSON.stringify(responseJson));
         console.log(responseJson.body);
       })
       //If response is not in json then in error
@@ -75,22 +74,24 @@ export default class HomePage extends Component {
 
                 <View style={styles.Event}>
                   <View style={styles.textColumnRow}>
+                    <Text style={styles.text}>{this.state.eventTitles[0]}</Text>
+                  </View>
+                  <View style={styles.textColumnRow}>
                     <View style={styles.textColumn}>
-                      <Text style={styles.text}>
-                        {this.state.eventTitles[0]}
-                      </Text>
                       <Text style={styles.text2}>
                         City: {this.state.eventCity[0]}
                       </Text>
+                      <Text style={styles.text3}>
+                        Capacity: {this.state.eventCapacity[0]}
+                      </Text>
                     </View>
-                    <MaterialButtonViolet
-                      style={styles.materialButtonViolet}
-                      onPress={this.getDataUsingPost()}
-                    />
+                    <View style={styles.textColumn}>
+                      <MaterialButtonViolet
+                        style={styles.materialButtonViolet}
+                        onPress={this.getDataUsingPost()}
+                      />
+                    </View>
                   </View>
-                  <Text style={styles.text3}>
-                    Capacity: {this.state.eventCapacity[0]}
-                  </Text>
                 </View>
               </ScrollView>
             </View>
@@ -133,41 +134,37 @@ const styles = StyleSheet.create({
     height: 120,
     backgroundColor: "rgba(230, 230, 230,1)",
     marginTop: 30,
-    marginLeft: 17
+    marginLeft: 17,
+    borderRadius: 5,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: "grey",
+    shadowOpacity: 0.5
   },
   text: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20
+    fontSize: 18
     // fontFamily: "roboto-500"
   },
   text2: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20,
-    // fontFamily: "arial",
-    marginTop: 6
+    fontSize: 14
   },
   textColumn: {
-    width: 200,
-    marginBottom: 6
+    flexDirection: "column"
   },
   materialButtonViolet: {
     width: 100,
-    height: 36,
-    marginLeft: 66,
-    marginTop: 16
+    height: 36
   },
   textColumnRow: {
-    height: 52,
     flexDirection: "row",
-    marginTop: 12,
-    marginLeft: 14,
-    marginRight: 33
+    margin: 10,
+    textAlign: "center",
+    justifyContent: "space-around"
   },
   text3: {
     color: "rgba(39,34,34,1)",
-    fontSize: 20,
-    // fontFamily: "arial",
-    marginLeft: 13
+    fontSize: 14
   },
   Footer: {
     top: 638,
@@ -177,7 +174,7 @@ const styles = StyleSheet.create({
     position: "absolute"
   },
   SearchBar: {
-    top: 0,
+    top: -35,
     left: 0,
     width: 420,
     height: 56,
@@ -191,7 +188,7 @@ const styles = StyleSheet.create({
     position: "absolute"
   },
   Header: {
-    top: 0,
+    top: -30,
     left: 0,
     width: 420,
     height: 56,
