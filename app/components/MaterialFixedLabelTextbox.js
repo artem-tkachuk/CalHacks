@@ -7,18 +7,12 @@ export default class MaterialFixedLabelTextbox extends Component
   {
     super(props);
     this.state = {value: ""};
-    this.onValueChange = this.onValueChange.bind(this);
-  }
-
-  onValueChange(text)
-  {
-    this.setState({value: text});
   }
 
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
-        <TextInput style={styles.inputStyle} placeholder={this.props.placeholder}/>
+        <TextInput style={styles.inputStyle} onChangeText={this.props.reff} placeholder={this.props.placeholder}/>
       </View>
     );
   }
