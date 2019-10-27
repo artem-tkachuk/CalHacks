@@ -1,17 +1,26 @@
 import React, { Component } from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
-export default class MaterialButtonViolet extends Component
-{
-  constructor(props)
-  {
-    super(props);
-  }
-  render()
-  {
+export default class MaterialButtonViolet extends Component {
+  state = {
+    text: "Join"
+  };
+
+  onPress = () => {
+    this.setState({
+      text: "Pending"
+    });
+  };
+
+  render() {
     return (
-      <TouchableOpacity onPress={this.props.onPress} style={[styles.container, this.props.style]}>
-        <Text style={styles.caption}>Join</Text>
+      <TouchableOpacity
+        onPress={this.props.onPress}
+        style={[styles.container, this.props.style]}
+      >
+        <Text style={styles.caption} onPress={this.onPress}>
+          {this.state.text}
+        </Text>
       </TouchableOpacity>
     );
   }

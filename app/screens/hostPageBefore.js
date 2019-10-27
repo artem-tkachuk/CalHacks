@@ -8,25 +8,51 @@ import * as database from "./database.js";
 import * as firebase from "firebase";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 import MaterialButtonDanger from "../components/MaterialButtonDanger";
+import {
+  TouchableWithoutFeedback,
+  TouchableOpacity
+} from "react-native-gesture-handler";
 
 class Request extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      show: true
+    };
   }
+
+  hideComponent = () => {
+    this.setState = {
+      show: false
+    };
+  };
+
   render() {
     return (
-      <View style={styles.text6Row}>
-        <Text style={styles.text}>{this.props.name}</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignContent: "space-around",
-            alignSelf: "stretch"
-          }}
-        >
-          <MaterialButtonSuccess style={styles.materialButtonSuccess} />
-          <MaterialButtonDanger style={styles.materialButtonDanger} />
-        </View>
+      <View>
+        {this.state.show ? (
+          <View style={styles.text6Row}>
+            <Text style={styles.text}>{this.props.name}</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignContent: "space-around",
+                alignSelf: "stretch",
+                padding: 10
+              }}
+            >
+              <MaterialButtonSuccess
+                style={styles.materialButtonSuccess}
+                onPress={this.hideComponent}
+              />
+
+              <MaterialButtonDanger
+                style={styles.materialButtonDanger}
+                onPress={this.hideComponent}
+              />
+            </View>
+          </View>
+        ) : null}
       </View>
     );
   }
@@ -181,6 +207,7 @@ class HostPageBefore extends Component {
                     placeholder="Capacity:"
                     reff={this.changeCapacity}
                     style={styles.EventCapacity}
+                    keyboardType={"numper-pad"}
                   />
                   <MaterialFixedLabelTextbox
                     placeholder="Address:"
@@ -307,7 +334,8 @@ var styles = StyleSheet.create({
     color: "rgba(39,34,34,1)",
     fontSize: 24,
     // fontFamily: "roboto-700",
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: 25
   },
   MyEventInfo: {
     flexDirection: "column",
@@ -319,7 +347,8 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     shadowOffset: { width: 3, height: 3 },
     shadowColor: "grey",
-    shadowOpacity: 0.5
+    shadowOpacity: 0.5,
+    padding: 10
   },
   text: {
     color: "rgba(39,34,34,1)",
@@ -355,10 +384,11 @@ var styles = StyleSheet.create({
     fontSize: 24,
     // fontFamily: "roboto-700",
     textAlign: "center",
-    marginTop: 30
+    marginTop: 30,
+    marginBottom: 30
   },
   Request: {
-    width: 332,
+    width: 310,
     height: "auto",
     marginTop: 20,
     backgroundColor: "rgba(230, 230, 230,1)",
@@ -368,8 +398,7 @@ var styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 3 },
     shadowColor: "grey",
     shadowOpacity: 0.5,
-    padding: 5,
-    paddingBottom: 15,
+    padding: 15,
     justifyContent: "center"
   },
   text6: {

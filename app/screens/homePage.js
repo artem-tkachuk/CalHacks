@@ -72,6 +72,9 @@ class Login extends Component {
 class Event extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      buttonText: "Join"
+    };
     this.joinEvent = this.joinEvent.bind(this);
     // this.helper = this.helper.bind(this);
     this.notifyHostWithMessage = this.notifyHostWithMessage.bind(this);
@@ -119,6 +122,7 @@ class Event extends Component {
           .set(database.getID());
       });
   }
+
   render() {
     return (
       <View>
@@ -131,6 +135,7 @@ class Event extends Component {
             <MaterialButtonViolet
               style={styles.materialButtonViolet}
               onPress={this.joinEvent}
+              text="Join"
             />
           </View>
         </View>
@@ -272,8 +277,9 @@ const styles = StyleSheet.create({
     color: "rgba(39,34,34,1)",
     fontSize: 24,
     // fontFamily: "roboto-700",
-    marginTop: 18,
-    marginLeft: 34
+    marginTop: 8,
+    marginLeft: 34,
+    fontWeight: "500"
   },
   Event: {
     width: 380,
