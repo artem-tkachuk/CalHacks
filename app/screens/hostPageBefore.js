@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ScrollView, Button } from "react-native";
 import MaterialHeader2 from "../components/MaterialHeader2";
 import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
 import MaterialButtonViolet1 from "../components/MaterialButtonViolet1";
@@ -19,8 +19,8 @@ class Request extends Component {
     this.state = {
       show: true
     };
+    this.hideComponent = this.hideComponent.bind(this);
   }
-
   hideComponent = () => {
     this.setState = {
       show: false
@@ -43,16 +43,17 @@ class Request extends Component {
             >
               <MaterialButtonSuccess
                 style={styles.materialButtonSuccess}
-                onPress={this.hideComponent}
+                onPress={alert("success!")}
               />
 
               <MaterialButtonDanger
                 style={styles.materialButtonDanger}
-                onPress={this.hideComponent}
+                onPress={alert("danger")}
               />
             </View>
           </View>
         ) : null}
+        <Button title={"here"} onPress={alert("hi!")} />
       </View>
     );
   }
