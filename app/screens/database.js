@@ -38,12 +38,12 @@ module.exports = {
     unique = event.getKey();
     event.set({
       name: title,
+      attendees: {"name": "Artem"},
       capacity: capacity,
       address: address, // TODO: host
       id: unique,
-      pending: [],
-      host: userID,
-      pending: []
+      pending: {"name": "Artem"},
+      host: userID
     });
   }
 };
