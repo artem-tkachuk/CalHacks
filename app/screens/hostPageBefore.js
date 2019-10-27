@@ -16,12 +16,10 @@ class Request extends Component {
   render() {
     return (
       <View>
-        <View style={styles.Request}>
-          <View style={styles.textColumnRow}>
-            <View style={styles.textColumn}>
-              <Text style={styles.text}>{this.props.name}</Text>
-            </View>
-          </View>
+        <View style={styles.text6Row}>
+          <Text style={styles.text}>{this.props.name}</Text>
+          <MaterialButtonSuccess style={styles.materialButtonSuccess} />
+          <MaterialButtonDanger style={styles.materialButtonDanger} />
         </View>
       </View>
     );
@@ -338,7 +336,7 @@ var styles = StyleSheet.create({
   },
   Request: {
     width: 332,
-    height: 80,
+    height: "auto",
     backgroundColor: "rgba(230, 230, 230,1)",
     flexDirection: "column",
     alignSelf: "center",

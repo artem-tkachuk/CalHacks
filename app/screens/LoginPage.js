@@ -9,6 +9,7 @@ import MaterialButtonPrimary1 from "../components/MaterialButtonPrimary1";
 import MaterialButtonShare from "../components/MaterialButtonShare";
 import MaterialButtonShare1 from "../components/MaterialButtonShare1";
 import firebase from 'firebase';
+import database from './database';
 
 export default class Login extends Component {
 
@@ -42,43 +43,59 @@ export default class Login extends Component {
         firebase
             .auth()
             .signInAndRetrieveDataWithCredential(credential)
-            .then((result) => {
-              console.log("User signed in!");
-              if (result.additionalUserInfo.isNewUser) {
-                firebase
-                    .database
-                    .ref('/active_users' + result.user.uid)
-                    .set({
-                      gmail: result.user.email,
-                      profile_picture: result.additionalUserInfo.profile.picture,
-                      first_name: result.additionalUserInfo.profile.given_name,
-                      last_name: result.additionalUserInfo.profile.family_name,
-                      created_at: Date.now()
-                    })
-                    .then((snapshot) => {
-                      console.log('Snapshot', snapshot);
-                    });
-              }
+            .then(function (result) {
+                console.log("User signed in!");
+                if (result.additionalUserInfo.isNewUser) {
+                  result.user["created_at"] = Date.now();
+
+                  console.log(result.user.uid);
+                  //database.addUser(result.user);
+                  //firebase.database().ref('/active_users').push().set(result.user);
+
+                  firebase
+                      .database()
+                      .ref('/active_users')
+                      .child(result.user.uid.toString())
+                      .set({
+                        gmail: result.user.email,
+                        profile_picture: result.additionalUserInfo.profile.picture,
+                        first_name: result.additionalUserInfo.profile.given_name,
+                        last_name: result.additionalUserInfo.profile.family_name,
+                        created_at: Date.now(),
+                        last_logged_in: Date.now()
+                      })
+                      .then((snapshot) => {
+                        console.log('Logged the new user in Firebase real time database!');
+                      })
+                      .catch(err => console.log(err));
+                } else {
+                  console.log('NOT YET Done!!!!!!!!!!!!!');
+                  firebase
+                      .database()
+                      .ref('/active_users')
+                      .child(result.user.uid.toString())
+                      .set({
+                        last_logged_in: Date.now()
+                      })
+                      .then(() => {
+                        console.log('Done!!!!!!!!!!!!!');
+                      });
+                  console.log('User already signed-in Firebase.');
+                }
             })
-            .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
-        });
-      } else {
-        firebase.database.ref('/active_users' + result.user.uid)
-            .update({
-              last_logged_in: Date.now()
+            .catch(function (error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // The email of the user's account used.
+              var email = error.email;
+              // The firebase.auth.AuthCredential type that was used.
+              var credential = error.credential;
+              // ...
             });
-        console.log('User already signed-in Firebase.');
       }
-    }.bind(this));
-  }
+    }.bind(this))
+  };
   signInWIthGoogelAsyc = async () => {
     try {
       console.log("sucess!!!!!!!!!");
