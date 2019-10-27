@@ -1,13 +1,15 @@
-import { createBrowserApp } from '@react-navigation/web';
-import { createSwitchNavigator } from 'react-navigation';
-
-import MainTabNavigator from './MainTabNavigator';
+import { createBrowserApp } from "@react-navigation/web";
+import { createSwitchNavigator, createAppContainer } from "react-navigation";
+import LoginPage from "../screens/LoginPage";
+import MainTabNavigator from "./MainTabNavigator";
+import LoadingScreen from "../screens/LoadingScreen";
 
 const switchNavigator = createSwitchNavigator({
   // You could add another route here for authentication.
   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
+  Login: LoginPage,
+  Main: MainTabNavigator
 });
-switchNavigator.path = '';
+switchNavigator.path = "";
 
-export default createBrowserApp(switchNavigator, { history: 'hash' });
+export default createAppContainer(switchNavigator);
