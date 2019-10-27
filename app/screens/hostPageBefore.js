@@ -8,33 +8,7 @@ import * as database from "./database.js";
 import * as firebase from "firebase";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 import MaterialButtonDanger from "../components/MaterialButtonDanger";
-import * as firebase from "firebase";
 
-class HostPageAfter extends Component
-{
-  constructor(props)
-  {
-    super(props);
-    this.state = {title: "", capacity: "", address: ""};
-    firebase
-      .database()
-      .ref("/events")
-      .on("value", (snapshot) => {
-        if (snapshot.exists()) {
-          snapshot.forEach(child => {
-              if(child.val()["host"] == database.getID())
-              {
-                this.state = {title: child.val()["title"],
-                              capacity: child.val()["capacity"],
-                              address: child.val()["address"]
-                              };
-                return;
-              }
-            });
-          }
-        });
-  }
-}
 class Request extends Component {
   constructor(props) {
     super(props);
@@ -57,21 +31,39 @@ class Request extends Component {
 class HostPageAfter extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      requests: []
-    };
     this.updateRequests = this.updateRequests.bind(this);
+    this.state = { title: "", capacity: "", address: "", requests: [] };
+
+    firebase
+      .database()
+      .ref("/events")
+      .on("value", snapshot => {
+        if (snapshot.exists()) {
+          snapshot.forEach(child => {
+            if (child.val()["host"] == database.getID()) {
+              this.state = {
+                title: child.val()["name"],
+                capacity: child.val()["capacity"],
+                address: child.val()["address"]
+              };
+              return;
+            }
+          });
+        }
+      });
   }
 
   updateRequests(snapshot) {
     if (snapshot.exists()) {
       var all_requests = [];
       snapshot.forEach(child => {
-        all_requests.push({
-          name: child.val()["id"]
-        });
+        if (child.val()["id"] == "-LsAKePRh_jvKJ6hC6Ry") {
+          all_requests.push({
+            name: child.val()["pending"]["key"]
+          });
+        }
       });
+
       this.setState({ requests: all_requests });
     }
   }
@@ -92,27 +84,26 @@ class HostPageAfter extends Component {
 
     return (
       <View style={styles.containerAfter}>
+        <MaterialHeader2 style={styles.Header} />
         <View style={styles.scrollAreaStack}>
           <View style={styles.scrollArea}>
             <ScrollView
               contentContainerStyle={styles.scrollArea_contentContainerStyle}
             >
-              <Text style={styles.MyEventHeader}>My Event</Text>
-              <View style={styles.MyEventInfo}>
-                <Text style={styles.text2}>{this.state.title}</Text>
-                <Text style={styles.text3}>{this.state.address}</Text>
-                <Text style={styles.text4}>Capacity: {this.state.capacity}</Text>
-              </View>
-              <Text style={styles.RequestsHeader}>Requests</Text>
-              <View style={styles.Request}>
-                <View style={styles.text6Row}>
-                  <Text style={styles.text6}>Name</Text>
-                  <MaterialButtonSuccess style={styles.materialButtonSuccess} />
-                  <MaterialButtonDanger style={styles.materialButtonDanger} />
+              <ScrollView>
+                <Text style={styles.MyEventHeader}>My Event</Text>
+                <View style={styles.MyEventInfo}>
+                  <Text style={styles.text2}>Title: {this.state.title}</Text>
+                  <Text style={styles.text3}>
+                    Address: {this.state.address}
+                  </Text>
+                  <Text style={styles.text4}>
+                    Capacity: {this.state.capacity}
+                  </Text>
                 </View>
                 <Text style={styles.RequestsHeader}>Requests</Text>
                 {requests}
-              </View>
+              </ScrollView>
             </ScrollView>
           </View>
           {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
@@ -206,18 +197,17 @@ export default class Combiner extends Component {
     firebase
       .database()
       .ref("/events")
-      .on("value", (snapshot) => {
+      .on("value", snapshot => {
         if (snapshot.exists()) {
           snapshot.forEach(child => {
-              if(child.val()["host"] == database.getID())
-              {
-                this.state = { eventHosted: true };
-                return;
-              }
-            });
-          }
-        });
-      this.state = { eventHosted: false };
+            if (child.val()["host"] == database.getID()) {
+              this.state = { eventHosted: true };
+              return;
+            }
+          });
+        }
+      });
+    this.state = { eventHosted: false };
   }
 
   setEventHosted(val) {
@@ -281,13 +271,13 @@ var styles = StyleSheet.create({
     top: 0,
     left: 0,
     width: 420,
-    height: 582,
+    height: 682,
     backgroundColor: "rgba(255,255,255,1)",
     position: "absolute"
   },
   scrollArea_contentContainerStyle: {
     width: 420,
-    height: 596
+    height: 696
   },
   scrollAreaStack: {
     top: 0,
@@ -350,7 +340,7 @@ var styles = StyleSheet.create({
     width: 332,
     height: 80,
     backgroundColor: "rgba(230, 230, 230,1)",
-    flexDirection: "row",
+    flexDirection: "column",
     alignSelf: "center",
     marginTop: 30,
     borderRadius: 5,
