@@ -5,11 +5,11 @@ import React, { useState } from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 //const firebase = require('./screens/database');
-import * as firebase from 'firebase';
-import {firebaseConfig} from './screens/database';
+import * as firebase from "firebase";
+import { firebaseConfig } from "./screens/database";
 
 if (firebase.app) {
-    firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 }
 
 import AppNavigator from "./navigation/AppNavigator.web";

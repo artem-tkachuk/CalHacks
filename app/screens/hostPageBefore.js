@@ -38,6 +38,7 @@ class HostPageAfter extends Component {
       .on("value", snapshot => {
         if (snapshot.exists()) {
           snapshot.forEach(child => {
+            console.log(database.getID());
             if (child.val()["host"] == database.getID()) {
               this.state = {
                 title: child.val()["name"],
@@ -55,9 +56,16 @@ class HostPageAfter extends Component {
     if (snapshot.exists()) {
       var all_requests = [];
       snapshot.forEach(child => {
-        if (child.val()["id"] == "-LsAKePRh_jvKJ6hC6Ry") {
-          all_requests.push({
-            name: child.val()["pending"]["key"]
+        console.log(database.getID());
+        if (child.val()["host"] == database.getID()) {
+          console.log("Checking here!");
+          console.log(child.val()["pending"]);
+          let keys = Object.keys(child.val()["pending"]);
+          console.log(keys);
+          keys.forEach(key => {
+            all_requests.push({
+              name: key
+            });
           });
         }
       });

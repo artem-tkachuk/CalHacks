@@ -73,23 +73,29 @@ class Event extends Component {
   constructor(props) {
     super(props);
     this.joinEvent = this.joinEvent.bind(this);
-    this.helper = this.helper.bind(this);
+    // this.helper = this.helper.bind(this);
     this.notifyHostWithMessage = this.notifyHostWithMessage.bind(this);
-    firebase.database().ref('/events/' + this.props.id + "/pending").on('child_added', this.helper);
+    // firebase
+    //   .database()
+    //   .ref("/events/" + this.props.id + "/pending")
+    //   .on("child_added");
   }
 
-  helper(data)
-  {
+  helper(data) {
     //console.log("listening on " + this.props.id);
-    firebase.database().ref('/active_users').child(data.val()).child("name").once('value').then(this.notifyHostWithMessage);
+    console.log(data.val());
+    firebase
+      .database()
+      .ref("/active_users")
+      .child(data.val())
+      .child("name")
+      .once("value")
+      .then(this.notifyHostWithMessage);
   }
 
-  notifyHostWithMessage(s)
-  {
-    for(var i = 0; i < this.props.events.length; i++)
-    {
-      if(this.props.events[i]["host"] == database.getID())
-      {
+  notifyHostWithMessage(s) {
+    for (var i = 0; i < this.props.events.length; i++) {
+      if (this.props.events[i]["host"] == database.getID()) {
         showMessage({
           message: "Someone wants to join your event",
           type: "info",
@@ -100,11 +106,18 @@ class Event extends Component {
     }
   }
 
-  joinEvent()
-  {
-    firebase.database().ref("/events").child(this.props.id).once("value").then(function(snapshot) {
-      snapshot.child("pending").ref.push().set(database.getID());
-    });
+  joinEvent() {
+    firebase
+      .database()
+      .ref("/events")
+      .child(this.props.id)
+      .once("value")
+      .then(function(snapshot) {
+        snapshot
+          .child("pending")
+          .ref.push()
+          .set(database.getID());
+      });
   }
   render() {
     return (
@@ -113,7 +126,7 @@ class Event extends Component {
           <View style={styles.textColumnRow}>
             <View style={styles.textColumn}>
               <Text style={styles.text}>{this.props.name}</Text>
-              <Text style={styles.text3}>capacity: {this.props.capacity}</Text>
+              <Text style={styles.text3}>Capacity: {this.props.capacity}</Text>
             </View>
             <MaterialButtonViolet
               style={styles.materialButtonViolet}
@@ -194,7 +207,7 @@ export default class HomePage extends Component {
   componentWillMount() {
     this.state.events = [];
     // database.initialize();
-    database.addUser("manlai");
+    // database.addUser("manlai");
     firebase
       .database()
       .ref("/events")
@@ -203,7 +216,13 @@ export default class HomePage extends Component {
 
   render() {
     const events = this.state.events.map((item, key) => (
-      <Event events={this.state.events} key={key} name={item.name} capacity={item.capacity} id={item.id}/>
+      <Event
+        events={this.state.events}
+        key={key}
+        name={item.name}
+        capacity={item.capacity}
+        id={item.id}
+      />
     ));
 
     return (
@@ -265,7 +284,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     shadowOffset: { width: 3, height: 3 },
     shadowColor: "grey",
-    shadowOpacity: 0.5
+    shadowOpacity: 0.5,
+    padding: 15
   },
   text: {
     color: "rgba(39,34,34,1)",
@@ -288,7 +308,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     margin: 10,
     textAlign: "center",
-    justifyContent: "space-around"
+    justifyContent: "space-between"
   },
   text3: {
     color: "rgba(39,34,34,1)",

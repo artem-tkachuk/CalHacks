@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as Google from 'expo-google-app-auth';
+import * as Google from "expo-google-app-auth";
 import { StyleSheet, View, Text, Button } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialUnderlineTextbox from "../components/MaterialUnderlineTextbox";
@@ -8,82 +8,87 @@ import MaterialButtonPrimary from "../components/MaterialButtonPrimary";
 import MaterialButtonPrimary1 from "../components/MaterialButtonPrimary1";
 import MaterialButtonShare from "../components/MaterialButtonShare";
 import MaterialButtonShare1 from "../components/MaterialButtonShare1";
-import firebase from 'firebase';
-import database from './database';
+import firebase from "firebase";
+import database from "./database";
 
 export default class Login extends Component {
-
   isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
       var providerData = firebaseUser.providerData;
       for (var i = 0; i < providerData.length; i++) {
-        if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-            providerData[i].uid === googleUser.getBasicProfile().getId()) {
+        if (
+          providerData[i].providerId ===
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+          providerData[i].uid === googleUser.getBasicProfile().getId()
+        ) {
           // We don't need to reauth the Firebase connection.
           return true;
         }
       }
     }
     return false;
-  }
+  };
 
-  onSignIn = (googleUser) => {
-    console.log('Google Auth Response', googleUser);
+  onSignIn = googleUser => {
+    console.log("Google Auth Response", googleUser);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-    var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
-      unsubscribe();
-      // Check if we are already signed-in Firebase with the correct user.
-      if (!this.isUserEqual(googleUser, firebaseUser)) {
-        // Build Firebase credential with the Google ID token.
-        var credential = firebase.auth.GoogleAuthProvider.credential(
+    var unsubscribe = firebase.auth().onAuthStateChanged(
+      function(firebaseUser) {
+        unsubscribe();
+        // Check if we are already signed-in Firebase with the correct user.
+        if (!this.isUserEqual(googleUser, firebaseUser)) {
+          // Build Firebase credential with the Google ID token.
+          var credential = firebase.auth.GoogleAuthProvider.credential(
             googleUser.idToken,
             googleUser.accessToken
-        );
-        // Sign in with credential from the Google user.
-        firebase
+          );
+          // Sign in with credential from the Google user.
+          firebase
             .auth()
             .signInAndRetrieveDataWithCredential(credential)
-            .then(function (result) {
-                console.log("User signed in!");
-                if (result.additionalUserInfo.isNewUser) {
-                  result.user["created_at"] = Date.now();
+            .then(function(result) {
+              console.log("User signed in!");
+              if (result.additionalUserInfo.isNewUser) {
+                result.user["created_at"] = Date.now();
 
-                  console.log(result.user.uid);
-                  //database.addUser(result.user);
-                  //firebase.database().ref('/active_users').push().set(result.user);
+                console.log(result.user.uid);
+                //database.addUser(result.user);
+                //firebase.database().ref('/active_users').push().set(result.user);
 
-                  firebase
-                      .database()
-                      .ref('/active_users')
-                      .child(result.user.uid.toString())
-                      .set({
-                        gmail: result.user.email,
-                        profile_picture: result.additionalUserInfo.profile.picture,
-                        first_name: result.additionalUserInfo.profile.given_name,
-                        last_name: result.additionalUserInfo.profile.family_name,
-                        created_at: Date.now(),
-                        last_logged_in: Date.now()
-                      })
-                      .then((snapshot) => {
-                        console.log('Logged the new user in Firebase real time database!');
-                      })
-                      .catch(err => console.log(err));
-                } else {
-                  console.log('NOT YET Done!!!!!!!!!!!!!');
-                  firebase
-                      .database()
-                      .ref('/active_users')
-                      .child(result.user.uid.toString())
-                      .set({
-                        last_logged_in: Date.now()
-                      })
-                      .then(() => {
-                        console.log('Done!!!!!!!!!!!!!');
-                      });
-                  console.log('User already signed-in Firebase.');
-                }
+                firebase
+                  .database()
+                  .ref("/active_users")
+                  .child(result.user.uid.toString())
+                  .set({
+                    gmail: result.user.email,
+                    profile_picture: result.additionalUserInfo.profile.picture,
+                    first_name: result.additionalUserInfo.profile.given_name,
+                    last_name: result.additionalUserInfo.profile.family_name,
+                    created_at: Date.now(),
+                    last_logged_in: Date.now()
+                  })
+                  .then(snapshot => {
+                    console.log(
+                      "Logged the new user in Firebase real time database!"
+                    );
+                  })
+                  .catch(err => console.log(err));
+              } else {
+                console.log("NOT YET Done!!!!!!!!!!!!!");
+                firebase
+                  .database()
+                  .ref("/active_users")
+                  .child(result.user.uid.toString())
+                  .set({
+                    last_logged_in: Date.now()
+                  })
+                  .then(() => {
+                    console.log("Done!!!!!!!!!!!!!");
+                  });
+                console.log("User already signed-in Firebase.");
+              }
             })
-            .catch(function (error) {
+            .catch(function(error) {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
@@ -93,8 +98,9 @@ export default class Login extends Component {
               var credential = error.credential;
               // ...
             });
-      }
-    }.bind(this))
+        }
+      }.bind(this)
+    );
   };
   signInWIthGoogelAsyc = async () => {
     try {
