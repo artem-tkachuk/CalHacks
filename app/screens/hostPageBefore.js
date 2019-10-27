@@ -15,9 +15,15 @@ class Request extends Component {
   }
   render() {
     return (
-      <View>
-        <View style={styles.text6Row}>
-          <Text style={styles.text}>{this.props.name}</Text>
+      <View style={styles.text6Row}>
+        <Text style={styles.text}>{this.props.name}</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignContent: "space-around",
+            alignSelf: "stretch"
+          }}
+        >
           <MaterialButtonSuccess style={styles.materialButtonSuccess} />
           <MaterialButtonDanger style={styles.materialButtonDanger} />
         </View>
@@ -278,8 +284,8 @@ var styles = StyleSheet.create({
     left: 0,
     width: 420,
     height: 682,
-    backgroundColor: "rgba(255,255,255,1)",
-    position: "absolute"
+    backgroundColor: "rgba(255,255,255,1)"
+    // position: "absolute"
   },
   scrollArea_contentContainerStyle: {
     width: 420,
@@ -289,12 +295,12 @@ var styles = StyleSheet.create({
     top: 0,
     left: 0,
     width: 420,
-    height: 725,
-    position: "absolute"
+    alignSelf: "stretch"
+    // position: "absolute"
   },
   scrollAreaStackStack: {
     width: 420,
-    height: 781,
+    alignSelf: "stretch",
     marginTop: 31
   },
   MyEventHeader: {
@@ -304,15 +310,24 @@ var styles = StyleSheet.create({
     textAlign: "center"
   },
   MyEventInfo: {
+    flexDirection: "column",
     width: 332,
-    height: 96,
+    height: "auto",
     backgroundColor: "rgba(230, 230, 230,1)",
     alignSelf: "center",
-    marginTop: 30,
+    marginTop: 15,
     borderRadius: 5,
     shadowOffset: { width: 3, height: 3 },
     shadowColor: "grey",
     shadowOpacity: 0.5
+  },
+  text: {
+    color: "rgba(39,34,34,1)",
+    flex: 2,
+    flexWrap: "wrap",
+    width: "auto",
+    fontSize: 16,
+    marginLeft: 4
   },
   text2: {
     color: "rgba(39,34,34,1)",
@@ -345,15 +360,16 @@ var styles = StyleSheet.create({
   Request: {
     width: 332,
     height: "auto",
+    marginTop: 20,
     backgroundColor: "rgba(230, 230, 230,1)",
     flexDirection: "column",
     alignSelf: "center",
-    marginTop: 30,
     borderRadius: 5,
     shadowOffset: { width: 3, height: 3 },
     shadowColor: "grey",
     shadowOpacity: 0.5,
-    padding: 20,
+    padding: 5,
+    paddingBottom: 15,
     justifyContent: "center"
   },
   text6: {
@@ -363,21 +379,22 @@ var styles = StyleSheet.create({
     marginTop: 13
   },
   materialButtonSuccess: {
-    width: 88,
+    width: "auto",
     height: 36,
-    marginLeft: 38
+    marginLeft: 4,
+    alignSelf: "flex-end"
   },
   materialButtonDanger: {
-    width: 88,
+    width: "auto",
     height: 36,
-    marginLeft: 28
+    marginLeft: 4,
+    marginRight: 4,
+    alignSelf: "flex-end"
   },
   text6Row: {
     height: 36,
     flexDirection: "row",
-    flex: 1,
-    marginRight: 12,
-    marginLeft: 25,
-    marginTop: 22
+    alignSelf: "stretch",
+    marginTop: 20
   }
 });
