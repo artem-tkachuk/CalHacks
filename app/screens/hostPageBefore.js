@@ -9,6 +9,8 @@ import * as firebase from "firebase";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 import MaterialButtonDanger from "../components/MaterialButtonDanger";
 
+
+
 class Request extends Component {
   constructor(props) {
     super(props);
@@ -16,12 +18,10 @@ class Request extends Component {
   render() {
     return (
       <View>
-        <View style={styles.Request}>
-          <View style={styles.textColumnRow}>
-            <View style={styles.textColumn}>
-              <Text style={styles.text}>{this.props.name}</Text>
-            </View>
-          </View>
+        <View style={styles.text6Row}>
+          <Text style={styles.text}>{this.props.name}</Text>
+          <MaterialButtonSuccess style={styles.materialButtonSuccess} />
+          <MaterialButtonDanger style={styles.materialButtonDanger} />
         </View>
       </View>
     );
@@ -36,6 +36,24 @@ class HostPageAfter extends Component {
       requests: []
     };
     this.updateRequests = this.updateRequests.bind(this);
+    this.state = {title: "", capacity: "", address: ""};
+    firebase
+      .database()
+      .ref("/events")
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(child => {
+              if(child.val()["host"] == database.getID())
+              {
+                this.state = {title: child.val()["title"],
+                              capacity: child.val()["capacity"],
+                              address: child.val()["address"]
+                              };
+                return;
+              }
+            });
+          }
+        });
   }
 
   updateRequests(snapshot) {
@@ -69,18 +87,18 @@ class HostPageAfter extends Component {
         <View style={styles.scrollAreaStack}>
           <View style={styles.scrollArea}>
             <ScrollView
-              contentContainerStyle={styles.scrollArea_contentContainerStyle}
-            >
-              <ScrollView>
-                <Text style={styles.MyEventHeader}>My Event</Text>
-                <View style={styles.MyEventInfo}>
-                  <Text style={styles.text2}>Event Title</Text>
-                  <Text style={styles.text3}>City: Berkeley</Text>
-                  <Text style={styles.text4}>Capacity: X</Text>
-                </View>
-                <Text style={styles.RequestsHeader}>Requests</Text>
+              contentContainerStyle={styles.scrollArea_contentContainerStyle}>
+              <Text style={styles.MyEventHeader}>My Event</Text>
+              <View style={styles.MyEventInfo}>
+                <Text style={styles.text2}>{this.state.title}</Text>
+                <Text style={styles.text3}>{this.state.address}</Text>
+                <Text style={styles.text4}>Capacity: {this.state.capacity}</Text>
+              </View>
+              <Text style={styles.RequestsHeader}>Requests</Text>
+              <View style={styles.Request}>
+                {/* <Text style={styles.RequestsHeader}>Requests</Text> */}
                 {requests}
-              </ScrollView>
+              </View>
             </ScrollView>
           </View>
           {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
@@ -170,8 +188,22 @@ class HostPageBefore extends Component {
 export default class Combiner extends Component {
   constructor(props) {
     super(props);
-    this.state = { eventHosted: false };
     this.setEventHosted = this.setEventHosted.bind(this);
+    firebase
+      .database()
+      .ref("/events")
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(child => {
+              if(child.val()["host"] == database.getID())
+              {
+                this.state = { eventHosted: true };
+                return;
+              }
+            });
+          }
+        });
+      this.state = { eventHosted: false };
   }
 
   setEventHosted(val) {
@@ -241,7 +273,7 @@ var styles = StyleSheet.create({
   },
   scrollArea_contentContainerStyle: {
     width: 420,
-    height: 596
+    height: "auto"
   },
   scrollAreaStack: {
     top: 0,
@@ -302,9 +334,9 @@ var styles = StyleSheet.create({
   },
   Request: {
     width: 332,
-    height: 80,
+    height: "auto",
     backgroundColor: "rgba(230, 230, 230,1)",
-    flexDirection: "row",
+    flexDirection: "column",
     alignSelf: "center",
     marginTop: 30,
     borderRadius: 5,
