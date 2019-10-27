@@ -43,7 +43,7 @@ class HostPageAfter extends Component {
       var all_requests = [];
       snapshot.forEach(child => {
         all_requests.push({
-          name: child.val()["capacity"]
+          name: child.val()["id"]
         });
       });
       this.setState({ requests: all_requests });
