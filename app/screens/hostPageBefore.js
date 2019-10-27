@@ -17,7 +17,6 @@ class Request extends Component {
   }
   render() {
     return (
-      <View>
         <View style={styles.text6Row}>
           <Text style={styles.text}>{this.props.name}</Text>
           <View style={{flexDirection: "row", alignContent: "space-around", alignSelf: "stretch"}}>
@@ -25,7 +24,6 @@ class Request extends Component {
             <MaterialButtonDanger style={styles.materialButtonDanger} />
           </View>
         </View>
-      </View>
     );
   }
 }
@@ -310,9 +308,10 @@ var styles = StyleSheet.create({
   text: {
     color: "rgba(39,34,34,1)",
     flex: 2,
+    flexWrap: "wrap",
     width: "auto",
     fontSize: 16,
-    marginLeft: 8,
+    marginLeft: 4,
   },
   text2: {
     color: "rgba(39,34,34,1)",
@@ -345,15 +344,16 @@ var styles = StyleSheet.create({
   Request: {
     width: 332,
     height: "auto",
+    marginTop: 20,
     backgroundColor: "rgba(230, 230, 230,1)",
     flexDirection: "column",
     alignSelf: "center",
-    marginTop: 30,
     borderRadius: 5,
     shadowOffset: { width: 3, height: 3 },
     shadowColor: "grey",
     shadowOpacity: 0.5,
-    padding: 20,
+    padding: 5,
+    paddingBottom: 15,
     justifyContent: "center"
   },
   text6: {
@@ -378,9 +378,7 @@ var styles = StyleSheet.create({
   text6Row: {
     height: 36,
     flexDirection: "row",
-    flex: 1,
-    marginRight: 12,
-    marginLeft: 10,
+    alignSelf: "stretch",
     marginTop: 20
   }
 });

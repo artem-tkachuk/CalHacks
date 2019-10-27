@@ -1,5 +1,7 @@
 import * as firebase from 'firebase';
 
+
+
 // Initialize Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyChrZ3JhGkEbUewo7D-VL5qE9w5Fs656ws",
@@ -11,9 +13,10 @@ const firebaseConfig = {
 var userID = '';
 
 module.exports = {
-    initialize: function()
+    firebaseConfig: firebaseConfig,
+    addUser: function(userdara)
     {
-        firebase.initializeApp(firebaseConfig);
+        firebase.database().ref('/users').push().set(userdata);
     },
     getID()
     {
