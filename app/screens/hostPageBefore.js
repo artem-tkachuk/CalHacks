@@ -8,13 +8,34 @@ import * as database from "./database.js";
 import * as firebase from "firebase";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 import MaterialButtonDanger from "../components/MaterialButtonDanger";
-import * as firebase from "firebase";
 
-class HostPageAfter extends Component
-{
-  constructor(props)
-  {
+
+
+class Request extends Component {
+  constructor(props) {
     super(props);
+  }
+  render() {
+    return (
+      <View>
+        <View style={styles.text6Row}>
+          <Text style={styles.text}>{this.props.name}</Text>
+          <MaterialButtonSuccess style={styles.materialButtonSuccess} />
+          <MaterialButtonDanger style={styles.materialButtonDanger} />
+        </View>
+      </View>
+    );
+  }
+}
+
+class HostPageAfter extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      requests: []
+    };
+    this.updateRequests = this.updateRequests.bind(this);
     this.state = {title: "", capacity: "", address: ""};
     firebase
       .database()
@@ -33,35 +54,6 @@ class HostPageAfter extends Component
             });
           }
         });
-  }
-}
-class Request extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <View>
-        <View style={styles.Request}>
-          <View style={styles.textColumnRow}>
-            <View style={styles.textColumn}>
-              <Text style={styles.text}>{this.props.name}</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-}
-
-class HostPageAfter extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      requests: []
-    };
-    this.updateRequests = this.updateRequests.bind(this);
   }
 
   updateRequests(snapshot) {
@@ -95,8 +87,7 @@ class HostPageAfter extends Component {
         <View style={styles.scrollAreaStack}>
           <View style={styles.scrollArea}>
             <ScrollView
-              contentContainerStyle={styles.scrollArea_contentContainerStyle}
-            >
+              contentContainerStyle={styles.scrollArea_contentContainerStyle}>
               <Text style={styles.MyEventHeader}>My Event</Text>
               <View style={styles.MyEventInfo}>
                 <Text style={styles.text2}>{this.state.title}</Text>
@@ -105,12 +96,7 @@ class HostPageAfter extends Component {
               </View>
               <Text style={styles.RequestsHeader}>Requests</Text>
               <View style={styles.Request}>
-                <View style={styles.text6Row}>
-                  <Text style={styles.text6}>Name</Text>
-                  <MaterialButtonSuccess style={styles.materialButtonSuccess} />
-                  <MaterialButtonDanger style={styles.materialButtonDanger} />
-                </View>
-                <Text style={styles.RequestsHeader}>Requests</Text>
+                {/* <Text style={styles.RequestsHeader}>Requests</Text> */}
                 {requests}
               </View>
             </ScrollView>
@@ -287,7 +273,7 @@ var styles = StyleSheet.create({
   },
   scrollArea_contentContainerStyle: {
     width: 420,
-    height: 596
+    height: "auto"
   },
   scrollAreaStack: {
     top: 0,
@@ -348,9 +334,9 @@ var styles = StyleSheet.create({
   },
   Request: {
     width: 332,
-    height: 80,
+    height: "auto",
     backgroundColor: "rgba(230, 230, 230,1)",
-    flexDirection: "row",
+    flexDirection: "column",
     alignSelf: "center",
     marginTop: 30,
     borderRadius: 5,
