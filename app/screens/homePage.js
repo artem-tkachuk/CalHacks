@@ -85,7 +85,7 @@ class Event extends Component {
   }
 
   helper(data) {
-    if(data.val() == "")
+    if(data == null || data.val() == "" || data.val().length < 10)
       return;
     firebase
       .database()
@@ -98,15 +98,15 @@ class Event extends Component {
 
   notifyHostWithMessage(s) {
     for (var i = 0; i < this.props.events.length; i++) {
-      if (this.props.events[i]["host"] == database.getID()) {
-        showMessage({
-          message: "Someone wants to join your event",
-          type: "info",
-          backgroundColor: "black", // background color
-          color: "white" // text color
-        });
-      }
-    }
+          if (this.props.events[i]["id"] == this.props.id && this.props.events[i]["host"] == database.getID()) {
+            showMessage({
+              message: "Someone wants to join your event",
+              type: "info",
+              backgroundColor: "black", // background color
+              color: "white" // text color
+            });
+          }
+        }
   }
 
   joinEvent() {
