@@ -190,7 +190,6 @@ export default class HomePage extends Component {
                     Live Events Happening Now
                   </Text>
                   {events}
-                  <Login />
                 </ScrollView>
               </ScrollView>
             </View>
