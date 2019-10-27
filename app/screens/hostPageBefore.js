@@ -10,7 +10,6 @@ import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 import MaterialButtonDanger from "../components/MaterialButtonDanger";
 import * as firebase from "firebase";
 
-<<<<<<< HEAD
 class HostPageAfter extends Component
 {
   constructor(props)
@@ -35,7 +34,6 @@ class HostPageAfter extends Component
           }
         });
   }
-=======
 class Request extends Component {
   constructor(props) {
     super(props);
@@ -86,7 +84,6 @@ class HostPageAfter extends Component {
       .on("value", this.updateRequests);
   }
 
->>>>>>> a24abdf01a132c54c9cad87bcbc88cb33b1f87b5
   render() {
     const requests = this.state.requests.map((item, key) => (
       <Request key={key} name={item.name} />
@@ -99,7 +96,6 @@ class HostPageAfter extends Component {
             <ScrollView
               contentContainerStyle={styles.scrollArea_contentContainerStyle}
             >
-<<<<<<< HEAD
               <Text style={styles.MyEventHeader}>My Event</Text>
               <View style={styles.MyEventInfo}>
                 <Text style={styles.text2}>{this.state.title}</Text>
@@ -112,18 +108,10 @@ class HostPageAfter extends Component {
                   <Text style={styles.text6}>Name</Text>
                   <MaterialButtonSuccess style={styles.materialButtonSuccess} />
                   <MaterialButtonDanger style={styles.materialButtonDanger} />
-=======
-              <ScrollView>
-                <Text style={styles.MyEventHeader}>My Event</Text>
-                <View style={styles.MyEventInfo}>
-                  <Text style={styles.text2}>Event Title</Text>
-                  <Text style={styles.text3}>City: Berkeley</Text>
-                  <Text style={styles.text4}>Capacity: X</Text>
->>>>>>> a24abdf01a132c54c9cad87bcbc88cb33b1f87b5
                 </View>
                 <Text style={styles.RequestsHeader}>Requests</Text>
                 {requests}
-              </ScrollView>
+              </View>
             </ScrollView>
           </View>
           {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
