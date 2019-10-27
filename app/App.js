@@ -4,6 +4,18 @@ import * as Font from "expo-font";
 import React, { useState } from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+//const firebase = require('./screens/database');
+import * as firebase from 'firebase';
+
+if (firebase.app) {
+    const firebaseConfig = {
+        apiKey: "AIzaSyChrZ3JhGkEbUewo7D-VL5qE9w5Fs656ws",
+        authDomain: "calhacks-9e46e.firebaseapp.com",
+        databaseURL: "https://calhacks-9e46e.firebaseio.com",
+        storageBucket: "calhacks-9e46e.appspot.com"
+    };
+    firebase.initializeApp(firebaseConfig);
+}
 
 import AppNavigator from "./navigation/AppNavigator.web";
 

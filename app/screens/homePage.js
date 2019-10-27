@@ -165,7 +165,7 @@ export default class HomePage extends Component {
 
   componentWillMount() {
     this.state.events = [];
-    database.initialize();
+    //database.initialize();
     firebase
       .database()
       .ref("/events")

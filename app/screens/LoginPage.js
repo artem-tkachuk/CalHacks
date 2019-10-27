@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Expo from "expo";
+import * as Google from 'expo-google-app-auth';
 import { StyleSheet, View, Text, Button } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialUnderlineTextbox from "../components/MaterialUnderlineTextbox";
@@ -8,11 +8,81 @@ import MaterialButtonPrimary from "../components/MaterialButtonPrimary";
 import MaterialButtonPrimary1 from "../components/MaterialButtonPrimary1";
 import MaterialButtonShare from "../components/MaterialButtonShare";
 import MaterialButtonShare1 from "../components/MaterialButtonShare1";
+import firebase from 'firebase';
+
 export default class Login extends Component {
+
+  isUserEqual = (googleUser, firebaseUser) => {
+    if (firebaseUser) {
+      var providerData = firebaseUser.providerData;
+      for (var i = 0; i < providerData.length; i++) {
+        if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+            providerData[i].uid === googleUser.getBasicProfile().getId()) {
+          // We don't need to reauth the Firebase connection.
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  onSignIn = (googleUser) => {
+    console.log('Google Auth Response', googleUser);
+    // We need to register an Observer on Firebase Auth to make sure auth is initialized.
+    var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
+      unsubscribe();
+      // Check if we are already signed-in Firebase with the correct user.
+      if (!this.isUserEqual(googleUser, firebaseUser)) {
+        // Build Firebase credential with the Google ID token.
+        var credential = firebase.auth.GoogleAuthProvider.credential(
+            googleUser.idToken,
+            googleUser.accessToken
+        );
+        // Sign in with credential from the Google user.
+        firebase
+            .auth()
+            .signInAndRetrieveDataWithCredential(credential)
+            .then((result) => {
+              console.log("User signed in!");
+              if (result.additionalUserInfo.isNewUser) {
+                firebase
+                    .database
+                    .ref('/active_users' + result.user.uid)
+                    .set({
+                      gmail: result.user.email,
+                      profile_picture: result.additionalUserInfo.profile.picture,
+                      first_name: result.additionalUserInfo.profile.given_name,
+                      last_name: result.additionalUserInfo.profile.family_name,
+                      created_at: Date.now()
+                    })
+                    .then((snapshot) => {
+                      console.log('Snapshot', snapshot);
+                    });
+              }
+            })
+            .catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+        });
+      } else {
+        firebase.database.ref('/active_users' + result.user.uid)
+            .update({
+              last_logged_in: Date.now()
+            });
+        console.log('User already signed-in Firebase.');
+      }
+    }.bind(this));
+  }
   signInWIthGoogelAsyc = async () => {
     try {
       console.log("sucess!!!!!!!!!");
-      const result = await Expo.Google.signInWIthGoogelAsyc({
+      const result = await Google.logInAsync({
         behavior: "web",
         iosClientId:
           "556843186846-34j5hg69ubtoc7li79b6q2pi99cro6pq.apps.googleusercontent.com",
@@ -20,12 +90,12 @@ export default class Login extends Component {
       });
 
       if (result.type == "success") {
+        this.onSignIn(result);
         return result.accessToken;
       } else {
         return { cancelled: true };
       }
     } catch (e) {
-      console.log(e);
       return { error: true };
     }
   };

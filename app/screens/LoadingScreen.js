@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 
-import * as firebase from "firebase";
+import * as firebase from 'firebase';
 
 export default class LoadingScreen extends Component {
   componentDidMount() {
@@ -9,17 +9,16 @@ export default class LoadingScreen extends Component {
   }
 
   checkIfLoggedIn = () => {
-    firebase.auth.onAuchStateChanged(
-      function(user) {
-        if (user) {
-          //redner main tab
-          this.props.navigation.navigate("Main");
-        } else {
-          //render login
-          this.props.navigation.navigate("Login");
-        }
-      }.bind(this)
-    );
+
+     firebase.auth().onAuthStateChanged(function(user) {
+         if (user) {
+             //redner main tab
+             this.props.navigation.navigate('Main');
+         } else {
+             //render login
+             this.props.navigation.navigate('Login');
+         }
+     }.bind(this));
   };
 
   render() {
