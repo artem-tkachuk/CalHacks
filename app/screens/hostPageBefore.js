@@ -5,10 +5,12 @@ import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
 import MaterialButtonViolet1 from "../components/MaterialButtonViolet1";
 import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
 import * as database from "./database.js";
+import * as firebase from "firebase";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 import MaterialButtonDanger from "../components/MaterialButtonDanger";
 import * as firebase from "firebase";
 
+<<<<<<< HEAD
 class HostPageAfter extends Component
 {
   constructor(props)
@@ -33,7 +35,63 @@ class HostPageAfter extends Component
           }
         });
   }
+=======
+class Request extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    return (
+      <View>
+        <View style={styles.Request}>
+          <View style={styles.textColumnRow}>
+            <View style={styles.textColumn}>
+              <Text style={styles.text}>{this.props.name}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
+}
+
+class HostPageAfter extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      requests: []
+    };
+    this.updateRequests = this.updateRequests.bind(this);
+  }
+
+  updateRequests(snapshot) {
+    if (snapshot.exists()) {
+      var all_requests = [];
+      snapshot.forEach(child => {
+        all_requests.push({
+          name: child.val()["capacity"]
+        });
+      });
+      this.setState({ requests: all_requests });
+    }
+  }
+
+  componentWillMount() {
+    this.state.requests = [];
+
+    firebase
+      .database()
+      .ref("/events")
+      .on("value", this.updateRequests);
+  }
+
+>>>>>>> a24abdf01a132c54c9cad87bcbc88cb33b1f87b5
+  render() {
+    const requests = this.state.requests.map((item, key) => (
+      <Request key={key} name={item.name} />
+    ));
+
     return (
       <View style={styles.containerAfter}>
         <View style={styles.scrollAreaStack}>
@@ -41,6 +99,7 @@ class HostPageAfter extends Component
             <ScrollView
               contentContainerStyle={styles.scrollArea_contentContainerStyle}
             >
+<<<<<<< HEAD
               <Text style={styles.MyEventHeader}>My Event</Text>
               <View style={styles.MyEventInfo}>
                 <Text style={styles.text2}>{this.state.title}</Text>
@@ -53,8 +112,18 @@ class HostPageAfter extends Component
                   <Text style={styles.text6}>Name</Text>
                   <MaterialButtonSuccess style={styles.materialButtonSuccess} />
                   <MaterialButtonDanger style={styles.materialButtonDanger} />
+=======
+              <ScrollView>
+                <Text style={styles.MyEventHeader}>My Event</Text>
+                <View style={styles.MyEventInfo}>
+                  <Text style={styles.text2}>Event Title</Text>
+                  <Text style={styles.text3}>City: Berkeley</Text>
+                  <Text style={styles.text4}>Capacity: X</Text>
+>>>>>>> a24abdf01a132c54c9cad87bcbc88cb33b1f87b5
                 </View>
-              </View>
+                <Text style={styles.RequestsHeader}>Requests</Text>
+                {requests}
+              </ScrollView>
             </ScrollView>
           </View>
           {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
@@ -298,7 +367,9 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     shadowOffset: { width: 3, height: 3 },
     shadowColor: "grey",
-    shadowOpacity: 0.5
+    shadowOpacity: 0.5,
+    padding: 20,
+    justifyContent: "center"
   },
   text6: {
     color: "rgba(39,34,34,1)",
