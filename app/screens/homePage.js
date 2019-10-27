@@ -76,17 +76,17 @@ class Event extends Component {
       buttonText: "Join"
     };
     this.joinEvent = this.joinEvent.bind(this);
-    // this.helper = this.helper.bind(this);
+    this.helper = this.helper.bind(this);
     this.notifyHostWithMessage = this.notifyHostWithMessage.bind(this);
-    // firebase
-    //   .database()
-    //   .ref("/events/" + this.props.id + "/pending")
-    //   .on("child_added");
+    firebase
+       .database()
+       .ref("/events/" + this.props.id + "/pending")
+       .on("child_added", this.helper);
   }
 
   helper(data) {
-    //console.log("listening on " + this.props.id);
-    console.log(data.val());
+    if(data.val() == "")
+      return;
     firebase
       .database()
       .ref("/active_users")
@@ -119,7 +119,7 @@ class Event extends Component {
         snapshot
           .child("pending")
           .ref.push()
-          .set(database.getID());
+          .set(database.getID()); 
       });
   }
 

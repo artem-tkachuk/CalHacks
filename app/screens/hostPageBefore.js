@@ -62,7 +62,7 @@ class HostPageAfter extends Component {
   constructor(props) {
     super(props);
     this.updateRequests = this.updateRequests.bind(this);
-    this.state = { title: "", capacity: "", address: "", requests: [] };
+    this.setState({ title: "", capacity: "", address: "", requests: [] });
 
     firebase
       .database()
