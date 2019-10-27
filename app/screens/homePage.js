@@ -72,6 +72,39 @@ class Login extends Component {
 class Event extends Component {
   constructor(props) {
     super(props);
+    this.joinEvent = this.joinEvent.bind(this);
+    this.helper = this.helper.bind(this);
+    this.notifyHostWithMessage = this.notifyHostWithMessage.bind(this);
+    firebase.database().ref('/events/' + this.props.id + "/pending").on('child_added', this.helper);
+  }
+
+  helper(data)
+  {
+    //console.log("listening on " + this.props.id);
+    firebase.database().ref('/active_users').child(data.val()).child("name").once('value').then(this.notifyHostWithMessage);
+  }
+
+  notifyHostWithMessage(s)
+  {
+    for(var i = 0; i < this.props.events.length; i++)
+    {
+      if(this.props.events[i]["host"] == database.getID())
+      {
+        showMessage({
+          message: "Someone wants to join your event",
+          type: "info",
+          backgroundColor: "black", // background color
+          color: "white" // text color
+        });
+      }
+    }
+  }
+
+  joinEvent()
+  {
+    firebase.database().ref("/events").child(this.props.id).once("value").then(function(snapshot) {
+      snapshot.child("pending").ref.push().set(database.getID());
+    });
   }
   render() {
     return (
@@ -84,14 +117,7 @@ class Event extends Component {
             </View>
             <MaterialButtonViolet
               style={styles.materialButtonViolet}
-              onPress={() => {
-                showMessage({
-                  message: "Someone wants to join your event",
-                  type: "info",
-                  backgroundColor: "black", // background color
-                  color: "white" // text color
-                });
-              }}
+              onPress={this.joinEvent}
             />
           </View>
         </View>
@@ -156,7 +182,9 @@ export default class HomePage extends Component {
       snapshot.forEach(child => {
         all_events.push({
           name: child.val()["name"],
-          capacity: child.val()["capacity"]
+          capacity: child.val()["capacity"],
+          id: child.val()["id"],
+          host: child.val()["host"]
         });
       });
       this.setState({ events: all_events });
@@ -165,7 +193,8 @@ export default class HomePage extends Component {
 
   componentWillMount() {
     this.state.events = [];
-    //database.initialize();
+    // database.initialize();
+    database.addUser("manlai");
     firebase
       .database()
       .ref("/events")
@@ -174,7 +203,7 @@ export default class HomePage extends Component {
 
   render() {
     const events = this.state.events.map((item, key) => (
-      <Event key={key} name={item.name} capacity={item.capacity} />
+      <Event events={this.state.events} key={key} name={item.name} capacity={item.capacity} id={item.id}/>
     ));
 
     return (

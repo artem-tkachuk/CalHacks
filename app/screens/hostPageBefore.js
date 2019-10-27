@@ -8,7 +8,33 @@ import * as database from "./database.js";
 import * as firebase from "firebase";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 import MaterialButtonDanger from "../components/MaterialButtonDanger";
+import * as firebase from "firebase";
 
+class HostPageAfter extends Component
+{
+  constructor(props)
+  {
+    super(props);
+    this.state = {title: "", capacity: "", address: ""};
+    firebase
+      .database()
+      .ref("/events")
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(child => {
+              if(child.val()["host"] == database.getID())
+              {
+                this.state = {title: child.val()["title"],
+                              capacity: child.val()["capacity"],
+                              address: child.val()["address"]
+                              };
+                return;
+              }
+            });
+          }
+        });
+  }
+}
 class Request extends Component {
   constructor(props) {
     super(props);
@@ -71,16 +97,22 @@ class HostPageAfter extends Component {
             <ScrollView
               contentContainerStyle={styles.scrollArea_contentContainerStyle}
             >
-              <ScrollView>
-                <Text style={styles.MyEventHeader}>My Event</Text>
-                <View style={styles.MyEventInfo}>
-                  <Text style={styles.text2}>Event Title</Text>
-                  <Text style={styles.text3}>City: Berkeley</Text>
-                  <Text style={styles.text4}>Capacity: X</Text>
+              <Text style={styles.MyEventHeader}>My Event</Text>
+              <View style={styles.MyEventInfo}>
+                <Text style={styles.text2}>{this.state.title}</Text>
+                <Text style={styles.text3}>{this.state.address}</Text>
+                <Text style={styles.text4}>Capacity: {this.state.capacity}</Text>
+              </View>
+              <Text style={styles.RequestsHeader}>Requests</Text>
+              <View style={styles.Request}>
+                <View style={styles.text6Row}>
+                  <Text style={styles.text6}>Name</Text>
+                  <MaterialButtonSuccess style={styles.materialButtonSuccess} />
+                  <MaterialButtonDanger style={styles.materialButtonDanger} />
                 </View>
                 <Text style={styles.RequestsHeader}>Requests</Text>
                 {requests}
-              </ScrollView>
+              </View>
             </ScrollView>
           </View>
           {/* <MaterialIconTextButtonsFooter style={styles.Footer} /> */}
@@ -170,8 +202,22 @@ class HostPageBefore extends Component {
 export default class Combiner extends Component {
   constructor(props) {
     super(props);
-    this.state = { eventHosted: false };
     this.setEventHosted = this.setEventHosted.bind(this);
+    firebase
+      .database()
+      .ref("/events")
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(child => {
+              if(child.val()["host"] == database.getID())
+              {
+                this.state = { eventHosted: true };
+                return;
+              }
+            });
+          }
+        });
+      this.state = { eventHosted: false };
   }
 
   setEventHosted(val) {
