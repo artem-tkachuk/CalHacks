@@ -8,80 +8,35 @@ const firebaseConfig = {
   storageBucket: "calhacks-9e46e.appspot.com"
 };
 
+var userID = '';
+
 module.exports = {
     initialize: function()
     {
         firebase.initializeApp(firebaseConfig);
     },
+    getID()
+    {
+        return userID;
+    },
     addUser: function(username)
     {
-        firebase.database().ref('/users').push().set({
-            name: username,
+        user = firebase.database().ref('/active_users').push();
+        userID = user.getKey();
+        user.set({
+            id: userID,
+            name: username
         });
     },
     addEvent: function(title, capacity, address)
     {
-        firebase.database().ref('/events').push().set({
+        event = firebase.database().ref('/events').push();
+        unique = event.getKey();
+        event.set({
             name: title,    capacity: capacity,
             address: address,   // TODO: host
+            id: unique, pending: [],
+            host: userID
         });
     }
 }
-
-/*var Sequelize = require('sequelize-cockroachdb');
-var fs = require('fs');
-
-const sequelize = new Sequelize('postgres://michael:1998@gcp-us-east1.josh-hackathon-test.crdb.io:26257/defaultdb?sslmode=disable');
-// Define the Account model for the "accounts" table.
-var Event = sequelize.define('events', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true
-    },
-});
-
-// Create the "accounts" table.
-Event.sync({
-        force: true
-    })
-    .then(function () {
-        // Insert two rows into the "accounts" table.
-        return Event.bulkCreate([{
-                id: 23,
-            },
-            {
-                id: 0,
-            }
-        ]);
-    })
-    .then(function () {
-        // Retrieve accounts.
-        return Event.findAll();
-    })
-    .then(function (events) {
-        // Print out the balances.
-        events.forEach(function (event) {
-            console.log(event.id);
-        });
-        process.exit(0);
-    })
-    .catch(function (err) {
-        console.error('error: ' + err.message);
-        process.exit(1);
-    });
-
-
-
-module.exports = {
-    authenticate: async function () {
-        console.log("calling autheticate");
-        await sequelize
-            .authenticate()
-            .then(() => {
-                console.log('Connection has been established successfully.');
-            })
-            .catch(err => {
-                console.error('Unable to connect to the database:', err);
-            });
-    },
-};*/
