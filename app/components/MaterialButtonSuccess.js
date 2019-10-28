@@ -5,7 +5,7 @@ export default class MaterialButtonSuccess extends Component {
   render() {
     return (
       <TouchableOpacity style={[styles.container, this.props.style]}>
-        <Text style={styles.caption} onPress={alert("success component!")}>
+        <Text style={styles.caption}>
           ACCEPT
         </Text>
       </TouchableOpacity>

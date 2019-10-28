@@ -74,18 +74,9 @@ export default class Login extends Component {
                   })
                   .catch(err => console.log(err));
               } else {
-                console.log("NOT YET Done!!!!!!!!!!!!!");
-                firebase
-                  .database()
-                  .ref("/active_users")
-                  .child(result.user.uid.toString())
-                  .set({
-                    last_logged_in: Date.now()
-                  })
-                  .then(() => {
-                    console.log("Done!!!!!!!!!!!!!");
-                  });
-                console.log("User already signed-in Firebase.");
+                //console.log("NOT YET Done!!!!!!!!!!!!!");
+                
+                //console.log("User already signed-in Firebase.");
               }
             })
             .catch(function(error) {

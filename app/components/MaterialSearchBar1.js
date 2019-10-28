@@ -18,7 +18,7 @@ export default class MaterialSearchBar1 extends Component {
           </View>
           <View style={styles.leftIconButtonRowFiller} />
           <TouchableOpacity style={styles.rightIconButton}>
-            <MaterialCommunityIconsIcon name="close" style={styles.rightIcon} />
+            <MaterialCommunityIconsIcon name="microphone" style={styles.rightIcon} />
           </TouchableOpacity>
         </View>
       </View>

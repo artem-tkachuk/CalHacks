@@ -43,27 +43,26 @@ class Request extends Component {
             >
               <MaterialButtonSuccess
                 style={styles.materialButtonSuccess}
-                onPress={alert("success!")}
               />
 
               <MaterialButtonDanger
                 style={styles.materialButtonDanger}
-                onPress={alert("danger")}
               />
             </View>
           </View>
         ) : null}
-        <Button title={"here"} onPress={alert("hi!")} />
       </View>
     );
   }
 }
 
 class HostPageAfter extends Component {
+  
   constructor(props) {
     super(props);
     this.updateRequests = this.updateRequests.bind(this);
-    this.setState({ title: "", capacity: "", address: "", requests: [] });
+    this.getUserName = this.getUserName.bind(this);
+    this.setState({ title: "", capacity: "", address: "", requests: [], i: 0});
 
     firebase
       .database()
@@ -85,6 +84,12 @@ class HostPageAfter extends Component {
       });
   }
 
+  getUserName(uid)
+  {
+    
+    return "Artem";
+  }
+
   updateRequests(snapshot) {
     if (snapshot.exists()) {
       var all_requests = [];
@@ -93,7 +98,7 @@ class HostPageAfter extends Component {
         if (child.val()["host"] == database.getID()) {
           console.log("Checking here!");
           console.log(child.val()["pending"]);
-          let keys = Object.keys(child.val()["pending"]);
+          let keys = Object.values(child.val()["pending"]);
           console.log(keys);
           keys.forEach(key => {
             all_requests.push({
@@ -118,7 +123,7 @@ class HostPageAfter extends Component {
 
   render() {
     const requests = this.state.requests.map((item, key) => (
-      <Request key={key} name={item.name} />
+      <Request key={key} name={this.getUserName(item.name)} />
     ));
 
     return (
